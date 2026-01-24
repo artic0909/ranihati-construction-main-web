@@ -75,4 +75,19 @@ class AdminController extends Controller
     {
         return view('admin.services');
     }
+
+    public function facts()
+    {
+        return view('admin.facts');
+    }
+
+    public function about()
+    {
+        return view('admin.about');
+    }
+
+    public function clients()
+    {
+        return view('admin.clients');
+    }
 }

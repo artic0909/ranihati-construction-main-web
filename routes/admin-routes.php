@@ -13,4 +13,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::get('/work', [AdminController::class, 'work'])->name('work');
     Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
     Route::get('/services', [AdminController::class, 'services'])->name('services');
+    Route::get('/facts', [AdminController::class, 'facts'])->name('facts');
+    Route::get('/about', [AdminController::class, 'about'])->name('about');
+    Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
 });

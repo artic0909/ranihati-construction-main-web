@@ -56,22 +56,22 @@
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.facts') ? 'active' : '' }}">
+            <a href="{{ route('admin.facts') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-list-check'></i>
                 <div data-i18n="Facts">Add Facts</div>
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.about') ? 'active' : '' }}">
+            <a href="{{ route('admin.about') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-info-circle'></i>
                 <div data-i18n="About">Add About</div>
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.clients') ? 'active' : '' }}">
+            <a href="{{ route('admin.clients') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-user-voice'></i>
                 <div data-i18n="Clients">Add Clients</div>
             </a>
