@@ -91,8 +91,8 @@
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.blogs') ? 'active' : '' }}">
+            <a href="{{ route('admin.blogs') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-news'></i>
                 <div data-i18n="Blogs">Blogs</div>
             </a>

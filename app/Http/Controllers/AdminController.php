@@ -100,4 +100,9 @@ class AdminController extends Controller
     {
         return view('admin.testimonials');
     }
+
+    public function blogs()
+    {
+        return view('admin.blogs');
+    }
 }
