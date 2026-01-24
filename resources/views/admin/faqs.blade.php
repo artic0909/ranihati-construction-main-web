@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Works | Ranihati Construction Private Limited')
+@section('title', 'Faqs | Ranihati Construction Private Limited')
 
 @section('content')
     <div class="row">
@@ -10,9 +10,9 @@
                     <div class="col-sm-7">
                         <div class="card-body">
                             <h5 class="card-title text-primary">
-                                Works
+                                Faqs
                             </h5>
-                            <p class="mb-4">Add Works</p>
+                            <p class="mb-4">Add Faqs</p>
                         </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
@@ -28,16 +28,16 @@
 
                     <div class="col-12">
                         <div class="card-footer text-end">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWorkModal">Add
-                                Work</button>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFaqModal">Add
+                                Faq</button>
                         </div>
                         <div class="card-body">
                             <table class="table responsive table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">SL</th>
-                                        <th scope="col">Work Image</th>
-                                        <th scope="col">Title</th>
+                                        <th scope="col">Question</th>
+                                        <th scope="col">Answer</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
@@ -46,15 +46,14 @@
                                     <tr style="text-align: left;">
                                         <td>1</td>
                                         <td>
-                                            <img src="{{ asset('./img/logo.png') }}" alt="Work Image"
-                                                style="width: 100px; height: 100px; object-fit: cover;">
+                                            Question
                                         </td>
-                                        <td>RCPL</td>
+                                        <td>Answer</td>
                                         <td>
                                             <button class="btn btn-info me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateWorkModal"><i class='bx bx-pencil'></i></button>
+                                                data-bs-target="#updateFaqModal"><i class='bx bx-pencil'></i></button>
                                             <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteWorkModal"><i class='bx bx-trash'></i></button>
+                                                data-bs-target="#deleteFaqModal"><i class='bx bx-trash'></i></button>
                                         </td>
                                     </tr>
 
@@ -69,23 +68,23 @@
     </div>
 
 
-    <!-- Add Work Modal -->
-    <div class="modal fade" id="addWorkModal" tabindex="-1" aria-labelledby="addWorkModalLabel" aria-hidden="true">
+    <!-- Add Faq Modal -->
+    <div class="modal fade" id="addFaqModal" tabindex="-1" aria-labelledby="addFaqModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addWorkModalLabel">Add Work</h5>
+                    <h5 class="modal-title" id="addFaqModalLabel">Add Faq</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="workImage" class="form-label">Work Image</label>
-                        <input class="form-control" type="file" id="workImage">
+                        <label for="question" class="form-label">Question</label>
+                        <input class="form-control" type="text" id="question">
                     </div>
                     <div class="mb-3">
-                        <label for="workTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="workTitle">
+                        <label for="answer" class="form-label">Answer</label>
+                        <input type="text" class="form-control" id="answer">
                     </div>
 
                 </div>
@@ -98,23 +97,23 @@
     </div>
     <!-- End Add Work Modal -->
 
-    <!-- Update Work Modal -->
-    <div class="modal fade" id="updateWorkModal" tabindex="-1" aria-labelledby="updateWorkModalLabel" aria-hidden="true">
+    <!-- Update Faq Modal -->
+    <div class="modal fade" id="updateFaqModal" tabindex="-1" aria-labelledby="updateFaqModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateWorkModalLabel">Update Work</h5>
+                    <h5 class="modal-title" id="updateFaqModalLabel">Update Faq</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="workImage" class="form-label">Work Image</label>
-                        <input class="form-control" type="file" id="workImage">
+                        <label for="faqQuestion" class="form-label">Question</label>
+                        <input class="form-control" type="text" id="faqQuestion">
                     </div>
                     <div class="mb-3">
-                        <label for="workTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="workTitle">
+                        <label for="faqAnswer" class="form-label">Answer</label>
+                        <input type="text" class="form-control" id="faqAnswer">
                     </div>
 
                 </div>
@@ -125,18 +124,18 @@
             </form>
         </div>
     </div>
-    <!-- End Update Work Modal -->
+    <!-- End Update Faq Modal -->
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteWorkModal" tabindex="-1" aria-labelledby="deleteWorkModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteFaqModal" tabindex="-1" aria-labelledby="deleteFaqModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteWorkModalLabel">Delete Work</h5>
+                    <h5 class="modal-title" id="deleteFaqModalLabel">Delete Faq</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this work?</p>
+                    <p>Are you sure you want to delete this faq?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

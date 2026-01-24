@@ -90,4 +90,9 @@ class AdminController extends Controller
     {
         return view('admin.clients');
     }
+
+    public function faqs()
+    {
+        return view('admin.faqs');
+    }
 }

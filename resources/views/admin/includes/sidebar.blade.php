@@ -77,8 +77,8 @@
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.faqs') ? 'active' : '' }}">
+            <a href="{{ route('admin.faqs') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-question-mark'></i>
                 <div data-i18n="FAQs">Add FAQs</div>
             </a>

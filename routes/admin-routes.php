@@ -16,4 +16,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::get('/facts', [AdminController::class, 'facts'])->name('facts');
     Route::get('/about', [AdminController::class, 'about'])->name('about');
     Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
+    Route::get('/faqs', [AdminController::class, 'faqs'])->name('faqs');
 });
