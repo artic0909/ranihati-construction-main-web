@@ -8,7 +8,7 @@
     <title>@yield('title', 'Admin Dashboard | RCPL')</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('./img/rupee.png') }}" />
+    <link href="{{ asset('img/favicon.ico') }}" rel="icon" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

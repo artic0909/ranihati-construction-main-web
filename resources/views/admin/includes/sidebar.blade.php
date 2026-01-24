@@ -28,15 +28,15 @@
             <span class="menu-header-text">Page Content</span>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.carousel') ? 'active' : '' }}">
+            <a href="{{ route('admin.carousel') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-carousel'></i>
                 <div data-i18n="Carousel">Add Carousel</div>
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.work') ? 'active' : '' }}">
+            <a href="{{ route('admin.work') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-building-house'></i>
                 <div data-i18n="Works">Add Works</div>
             </a>

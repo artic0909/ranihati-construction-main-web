@@ -55,4 +55,14 @@ class AdminController extends Controller
     {
         return view('admin.dashboard');
     }
+
+    public function carousel()
+    {
+        return view('admin.carousel');
+    }
+
+    public function work()
+    {
+        return view('admin.work');
+    }
 }
