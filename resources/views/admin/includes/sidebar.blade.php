@@ -84,8 +84,8 @@
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.testimonials') ? 'active' : '' }}">
+            <a href="{{ route('admin.testimonials') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-message-square-dots'></i>
                 <div data-i18n="Testimonials">Testimonials</div>
             </a>

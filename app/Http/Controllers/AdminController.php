@@ -95,4 +95,9 @@ class AdminController extends Controller
     {
         return view('admin.faqs');
     }
+
+    public function testimonials()
+    {
+        return view('admin.testimonials');
+    }
 }
