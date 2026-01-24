@@ -111,7 +111,7 @@
                     <div class="card-body">
                         <!-- Logo -->
                         <div class="app-brand justify-content-center">
-                            <a href="/user" class="app-brand-link gap-2">
+                            <a href="/" class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">
                                     <img src="{{ asset('./img/logo.png') }}" width="60px" alt="" />
                                 </span>

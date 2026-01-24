@@ -13,10 +13,10 @@
     </div>
 
     <div class="menu-inner-shadow"></div>
-    
+
     <!-- Sidebar -->
     <ul class="menu-inner py-1">
-        <!-- Dashboard -->
+
         <li class="menu-item {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
@@ -24,23 +24,95 @@
             </a>
         </li>
 
-        <!-- Requests Section -->
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Requests</span>
+            <span class="menu-header-text">Page Content</span>
         </li>
-        
+
         <li class="menu-item">
             <a href="" class="menu-link">
-                <i class='menu-icon tf-icons bx bx-timer'></i>
-                <div data-i18n="Classes">Pending Requests</div>
+                <i class='menu-icon tf-icons bx bx-carousel'></i>
+                <div data-i18n="Carousel">Add Carousel</div>
             </a>
         </li>
 
-        <!-- Profile Section -->
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-building-house'></i>
+                <div data-i18n="Works">Add Works</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-package'></i>
+                <div data-i18n="Products">Add Products</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-list-check'></i>
+                <div data-i18n="Facts">Add Facts</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-info-circle'></i>
+                <div data-i18n="About">Add About</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-user-voice'></i>
+                <div data-i18n="Clients">Add Clients</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-question-mark'></i>
+                <div data-i18n="FAQs">Add FAQs</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-message-square-dots'></i>
+                <div data-i18n="Testimonials">Testimonials</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-news'></i>
+                <div data-i18n="Blogs">Blogs</div>
+            </a>
+        </li>
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Enquiry</span>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-envelope'></i>
+                <div data-i18n="Enquiry">Enquiry</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-briefcase'></i>
+                <div data-i18n="Job">Job Enquiry</div>
+            </a>
+        </li>
+
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Profile</span>
         </li>
-        
+
         <li class="menu-item">
             <a href="" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>

@@ -9,26 +9,7 @@
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-            <form action="" method="GET" class="d-flex align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                    <i class="bx bx-search fs-4 lh-0"></i>
-                    <input type="text" name="search" class="form-control border shadow-none" 
-                           placeholder="Search..." aria-label="Search..." 
-                           value="" />
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <p class="m-0">Search By Date:</p> 
-                &nbsp;&nbsp;
-                <div class="nav-item d-flex align-items-center">
-                    <input type="date" name="date" class="form-control border shadow-none" 
-                           placeholder="Search..." aria-label="Search..." 
-                           value="" />
-                </div>
-                &nbsp;&nbsp;
-                <button class="btn btn-primary" type="submit">Search</button>
-                &nbsp;&nbsp;
-                <a href="" class="btn btn-secondary">Reset</a>
-            </form>
+            <h3>Ranihati Construction Private Limited</h1>
         </div>
         <!-- /Search -->
 
@@ -71,7 +52,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <form action="" method="POST">
+                        <form action="{{ route('admin.logout') }}" method="GET">
                             @csrf
                             <button type="submit" class="dropdown-item">
                                 <i class="bx bx-power-off me-2"></i>
