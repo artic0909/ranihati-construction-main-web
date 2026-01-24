@@ -17,6 +17,13 @@
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
                         <!-- Search Functionality -->
+                         <form class="me-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <button class="btn btn-warning me-2" type="button">Search</button>
+                                <button class="btn btn-secondary" type="button">Reset</button>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="col-12">
