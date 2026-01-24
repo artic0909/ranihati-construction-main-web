@@ -11,4 +11,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
     Route::get('/carousel', [AdminController::class, 'carousel'])->name('carousel');
     Route::get('/work', [AdminController::class, 'work'])->name('work');
+    Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
+    Route::get('/services', [AdminController::class, 'services'])->name('services');
 });

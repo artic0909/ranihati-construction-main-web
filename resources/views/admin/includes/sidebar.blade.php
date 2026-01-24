@@ -42,10 +42,17 @@
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
-                <i class='menu-icon tf-icons bx bx-package'></i>
+        <li class="menu-item {{ Request::routeIs('admin.projects') ? 'active' : '' }}">
+            <a href="{{ route('admin.projects') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-building'></i>
                 <div data-i18n="Projects">Add Projects</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ Request::routeIs('admin.services') ? 'active' : '' }}">
+            <a href="{{ route('admin.services') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-briefcase'></i>
+                <div data-i18n="Projects">Add Services</div>
             </a>
         </li>
 

@@ -65,4 +65,14 @@ class AdminController extends Controller
     {
         return view('admin.work');
     }
+
+    public function projects()
+    {
+        return view('admin.projects');
+    }
+
+    public function services()
+    {
+        return view('admin.services');
+    }
 }
