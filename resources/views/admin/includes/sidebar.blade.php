@@ -45,7 +45,7 @@
         <li class="menu-item">
             <a href="" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-package'></i>
-                <div data-i18n="Products">Add Products</div>
+                <div data-i18n="Projects">Add Projects</div>
             </a>
         </li>
 

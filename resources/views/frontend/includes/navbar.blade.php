@@ -9,7 +9,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
                             <a href="{{ route('home') }}" class="nav-item nav-link {{ Request::routeIs('home') ? 'active' : '' }}">Home</a>
-                            <a href="{{ route('services') }}" class="nav-item nav-link {{ Request::routeIs('services') ? 'active' : '' }}">Products & Services</a>
+                            <a href="{{ route('services') }}" class="nav-item nav-link {{ Request::routeIs('services') ? 'active' : '' }}">Projects & Services</a>
                             <a href="{{ route('mission') }}" class="nav-item nav-link {{ Request::routeIs('mission') ? 'active' : '' }}">Mission & Vision</a>
                             <a href="{{ route('careers') }}" class="nav-item nav-link {{ Request::routeIs('careers') ? 'active' : '' }}">Careers</a>
                             <a href="{{ route('blogs') }}" class="nav-item nav-link {{ Request::routeIs('blogs') ? 'active' : '' }}">Blogs</a>

@@ -195,11 +195,11 @@
 </div>
 <!-- Our Works End -->
 
-<!-- Our Products & Segments Start -->
+<!-- Our Projects & Segments Start -->
 <div class="service">
     <div class="container">
         <div class="section-header text-center">
-            <p>Our Products & Segments</p>
+            <p>Our Projects & Segments</p>
             <h2>Materials & Construction Solutions</h2>
         </div>
         <div id="work-carousel" class="work-carousel">
@@ -264,8 +264,7 @@
 
     </div>
 </div>
-<!-- Our Products & Segments End -->
-
+<!-- Our Projects & Segments End -->
 
 <!-- Fact Start -->
 <div class="fact">
@@ -320,7 +319,6 @@
 </div>
 <!-- Fact End -->
 
-
 <!-- About Start -->
 <div class="about wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
@@ -355,7 +353,6 @@
 </div>
 <!-- About End -->
 
-
 <!-- Video Start -->
 <div class="video wow fadeIn" data-wow-delay="0.1s">
     <div class="container">
@@ -384,7 +381,6 @@
     </div>
 </div>
 <!-- Video End -->
-
 
 <!-- Our Clients Start -->
 <div class="team">
@@ -466,7 +462,6 @@
 </div>
 <!-- Our Clients End -->
 
-
 <!-- Map Start-->
 <div class="team">
     <div class="map">
@@ -477,7 +472,6 @@
     </div>
 </div>
 <!-- Map End -->
-
 
 <!-- FAQs Start -->
 <div class="faqs">
@@ -630,7 +624,6 @@
 </div>
 <!-- FAQs End -->
 
-
 <!-- Testimonial Start -->
 <div class="testimonial wow fadeIn" data-wow-delay="0.1s">
     <div class="container">
@@ -722,7 +715,6 @@
 </div>
 <!-- Testimonial End -->
 
-
 <!-- Blog Start -->
 <div class="blog">
     <div class="container">
@@ -799,7 +791,6 @@
 </div>
 <!-- Blog End -->
 
-
 <!-- Brand Start -->
 <div class="brand">
     <div class="container">
@@ -822,6 +813,5 @@
     </div>
 </div>
 <!-- Brand End -->
-
 
 @endsection
