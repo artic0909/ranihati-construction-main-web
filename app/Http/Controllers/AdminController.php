@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carousel;
+use App\Models\Fact;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\Work;
@@ -437,10 +438,70 @@ class AdminController extends Controller
     }
     // Services =================================================================>
 
+
+    // Facts =================================================================>
     public function facts()
     {
-        return view('admin.facts');
+        $facts = Fact::orderBy('id', 'desc')->paginate(10);
+        return view('admin.facts', compact('facts'));
     }
+
+    public function factStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'no_of_experts' => 'required|integer',
+                'no_of_clients' => 'required|integer',
+                'no_of_completed_projects' => 'required|integer',
+                'no_of_running_projects' => 'required|integer',
+            ]);
+
+            Fact::create($validated);
+
+            return redirect()->route('admin.facts')
+                ->with('success', 'Fact added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.facts')
+                ->with('error', 'Failed to add fact. Please try again.');
+        }
+    }
+
+    public function factUpdate(Request $request, $id)
+    {
+        try {
+            $fact = Fact::findOrFail($id);
+
+            $validated = $request->validate([
+                'no_of_experts' => 'required|integer',
+                'no_of_clients' => 'required|integer',
+                'no_of_completed_projects' => 'required|integer',
+                'no_of_running_projects' => 'required|integer',
+            ]);
+
+            $fact->update($validated);
+
+            return redirect()->route('admin.facts')
+                ->with('success', 'Fact updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.facts')
+                ->with('error', 'Failed to update fact. Please try again.');
+        }
+    }
+
+    public function factDelete($id)
+    {
+        try {
+            $fact = Fact::findOrFail($id);
+            $fact->delete();
+
+            return redirect()->route('admin.facts')
+                ->with('success', 'Fact deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.facts')
+                ->with('error', 'Failed to delete fact. Please try again.');
+        }
+    }
+    // Facts =================================================================>
 
     public function about()
     {

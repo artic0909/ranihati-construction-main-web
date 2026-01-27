@@ -63,6 +63,35 @@
                                 </tbody>
                             </table>
                             <!-- {{-- Pagination --}} -->
+                            @if ($services->hasPages())
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-4 align-items-center">
+
+                                        <!-- {{-- Prev Button --}} -->
+                                        <li class="page-item {{ $services->onFirstPage() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary"
+                                                href="{{ $services->previousPageUrl() }}">Prev</a>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Page Input + Total --}} -->
+                                        <li class="page-item d-flex align-items-center" style="margin: 0 2px;">
+                                            <form action="" method="GET" class="d-flex align-items-center"
+                                                style="margin:0; padding:0;">
+                                                <input type="number" name="page" value="{{ $services->currentPage() }}" min="1"
+                                                    max="{{ $services->lastPage() }}" readonly class="form-control">
+                                                <input type="text" value="/ {{ $services->lastPage() }}" readonly
+                                                    class="form-control">
+                                            </form>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Next Button --}} -->
+                                        <li class="page-item {{ !$Services->hasMorePages() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $services->nextPageUrl() }}">Next</a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -74,7 +103,8 @@
     <!-- Add Service Modal -->
     <div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="modal-content" action="{{ route('admin.services.store') }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
 
                 <div class="modal-header">
@@ -107,10 +137,11 @@
         <div class="modal fade" id="updateServiceModal{{ $service->id }}" tabindex="-1"
             aria-labelledby="updateServiceModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form class="modal-content" action="{{ route('admin.services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
+                <form class="modal-content" action="{{ route('admin.services.update', $service->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    
+
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateServiceModalLabel">Update Service</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -123,7 +154,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="serviceTitle" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="serviceTitle" name="title" value="{{ $service->title }}">
+                            <input type="text" class="form-control" id="serviceTitle" name="title"
+                                value="{{ $service->title }}">
                         </div>
 
                     </div>

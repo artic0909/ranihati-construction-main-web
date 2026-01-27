@@ -28,8 +28,10 @@
 
                     <div class="col-12">
                         <div class="card-footer text-end">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFactModal">Add
-                                Fact</button>
+                            @if($facts->count() < 1)
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFactModal">Add
+                                    Fact</button>
+                            @endif
                         </div>
                         <div class="card-body">
                             <table class="table responsive table-bordered table-hover">
@@ -44,24 +46,54 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr style="text-align: left;">
-                                        <td>1</td>
-                                        <td>10</td>
-                                        <td>10</td>
-                                        <td>10</td>
-                                        <td>10</td>
-                                        <td>
-                                            <button class="btn btn-info me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateFactModal"><i class='bx bx-pencil'></i></button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteFactModal"><i class='bx bx-trash'></i></button>
-                                        </td>
-                                    </tr>
-
+                                    @foreach($facts as $fact)
+                                        <tr style="text-align: left;">
+                                            <td>{{ $fact->id }}</td>
+                                            <td>{{ $fact->no_of_experts }}</td>
+                                            <td>{{ $fact->no_of_clients }}</td>
+                                            <td>{{ $fact->no_of_completed_projects }}</td>
+                                            <td>{{ $fact->no_of_running_projects }}</td>
+                                            <td>
+                                                <button class="btn btn-info me-2" data-bs-toggle="modal"
+                                                    data-bs-target="#updateFactModal{{ $fact->id }}"><i
+                                                        class='bx bx-pencil'></i></button>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteFactModal{{ $fact->id }}"><i
+                                                        class='bx bx-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!-- {{-- Pagination --}} -->
+                            @if ($facts->hasPages())
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-4 align-items-center">
+
+                                        <!-- {{-- Prev Button --}} -->
+                                        <li class="page-item {{ $facts->onFirstPage() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $facts->previousPageUrl() }}">Prev</a>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Page Input + Total --}} -->
+                                        <li class="page-item d-flex align-items-center" style="margin: 0 2px;">
+                                            <form action="" method="GET" class="d-flex align-items-center"
+                                                style="margin:0; padding:0;">
+                                                <input type="number" name="page" value="{{ $facts->currentPage() }}" min="1"
+                                                    max="{{ $facts->lastPage() }}" readonly class="form-control">
+                                                <input type="text" value="/ {{ $facts->lastPage() }}" readonly
+                                                    class="form-control">
+                                            </form>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Next Button --}} -->
+                                        <li class="page-item {{ !$facts->hasMorePages() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $facts->nextPageUrl() }}">Next</a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -73,7 +105,9 @@
     <!-- Add Fact Modal -->
     <div class="modal fade" id="addFactModal" tabindex="-1" aria-labelledby="addFactModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content">
+            <form class="modal-content" action="{{ route('admin.facts.store') }}" method="POST">
+                @csrf
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="addFactModalLabel">Add Fact</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -82,19 +116,20 @@
 
                     <div class="mb-3">
                         <label for="noOfExperts" class="form-label">No. Of Experts</label>
-                        <input class="form-control" type="number" id="noOfExperts">
+                        <input class="form-control" type="number" id="noOfExperts" name="no_of_experts">
                     </div>
                     <div class="mb-3">
                         <label for="noOfClients" class="form-label">No. Of Clients</label>
-                        <input type="number" class="form-control" id="noOfClients">
+                        <input type="number" class="form-control" id="noOfClients" name="no_of_clients">
                     </div>
                     <div class="mb-3">
                         <label for="noOfCompletedProjects" class="form-label">No. Of Completed Projects</label>
-                        <input type="number" class="form-control" id="noOfCompletedProjects">
+                        <input type="number" class="form-control" id="noOfCompletedProjects"
+                            name="no_of_completed_projects">
                     </div>
                     <div class="mb-3">
                         <label for="noOfRunningProjects" class="form-label">No. Of Running Projects</label>
-                        <input type="number" class="form-control" id="noOfRunningProjects">
+                        <input type="number" class="form-control" id="noOfRunningProjects" name="no_of_running_projects">
                     </div>
 
                 </div>
@@ -108,60 +143,76 @@
     <!-- End Add Work Modal -->
 
     <!-- Update Fact Modal -->
-    <div class="modal fade" id="updateFactModal" tabindex="-1" aria-labelledby="updateFactModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateFactModalLabel">Update Fact</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    @foreach($facts as $fact)
+        <div class="modal fade" id="updateFactModal{{ $fact->id }}" tabindex="-1" aria-labelledby="updateFactModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.facts.update', $fact->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
-                    <div class="mb-3">
-                        <label for="noOfExperts" class="form-label">No. Of Experts</label>
-                        <input class="form-control" type="number" id="noOfExperts">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateFactModalLabel">Update Fact</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="noOfClients" class="form-label">No. Of Clients</label>
-                        <input type="number" class="form-control" id="noOfClients">
-                    </div>
-                    <div class="mb-3">
-                        <label for="noOfCompletedProjects" class="form-label">No. Of Completed Projects</label>
-                        <input type="number" class="form-control" id="noOfCompletedProjects">
-                    </div>
-                    <div class="mb-3">
-                        <label for="noOfRunningProjects" class="form-label">No. Of Running Projects</label>
-                        <input type="number" class="form-control" id="noOfRunningProjects">
-                    </div>
+                    <div class="modal-body">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+                        <div class="mb-3">
+                            <label for="noOfExperts" class="form-label">No. Of Experts</label>
+                            <input class="form-control" type="number" id="noOfExperts" name="no_of_experts"
+                                value="{{ $fact->no_of_experts }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="noOfClients" class="form-label">No. Of Clients</label>
+                            <input type="number" class="form-control" id="noOfClients" name="no_of_clients"
+                                value="{{ $fact->no_of_clients }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="noOfCompletedProjects" class="form-label">No. Of Completed Projects</label>
+                            <input type="number" class="form-control" id="noOfCompletedProjects" name="no_of_completed_projects"
+                                value="{{ $fact->no_of_completed_projects }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="noOfRunningProjects" class="form-label">No. Of Running Projects</label>
+                            <input type="number" class="form-control" id="noOfRunningProjects" name="no_of_running_projects"
+                                value="{{ $fact->no_of_running_projects }}">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Update Fact Modal -->
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteFactModal" tabindex="-1" aria-labelledby="deleteFactModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteFactModalLabel">Delete Fact</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this fact?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+    @foreach($facts as $fact)
+        <div class="modal fade" id="deleteFactModal{{ $fact->id }}" tabindex="-1" aria-labelledby="deleteFactModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.facts.delete', $fact->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteFactModalLabel">Delete Fact</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this fact?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Delete Modal -->
 
 @endsection
