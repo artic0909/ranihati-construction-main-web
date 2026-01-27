@@ -19,10 +19,10 @@
                     <div class="col-12">
                         <div class="card-footer text-end">
                             @if($abouts->count() < 1)
-                            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addAboutModal">Add
-                                About</button>
+                                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addAboutModal">Add
+                                    About</button>
                             @endif
-                            
+
                             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addMissionModal">Add
                                 Mission</button>
                         </div>
@@ -84,27 +84,60 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr style="text-align: left;">
-                                        <td>1</td>
-                                        <td>
-                                            <img src="{{ asset('./img/logo.png') }}" alt="Mission Image"
-                                                style="width: 100px; height: 100px; object-fit: cover;">
-                                        </td>
-                                        <td>RCPL</td>
-                                        <td><button class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#missionDescriptionModal"><i
-                                                    class='bx bx-file'></i></button></td>
-                                        <td>
-                                            <button class="btn btn-info me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateMissionModal"><i class='bx bx-pencil'></i></button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteMissionModal"><i class='bx bx-trash'></i></button>
-                                        </td>
-                                    </tr>
+                                    @foreach($missions as $mission)
+                                        <tr style="text-align: left;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <img src="{{ asset('storage/' . $mission->image) }}" alt="Mission Image"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                            </td>
+                                            <td>{{ $mission->title }}</td>
+                                            <td><button class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#missionDescriptionModal{{ $mission->id }}"><i
+                                                        class='bx bx-file'></i></button></td>
+                                            <td>
+                                                <button class="btn btn-info me-2" data-bs-toggle="modal"
+                                                    data-bs-target="#updateMissionModal{{ $mission->id }}"><i
+                                                        class='bx bx-pencil'></i></button>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteMissionModal{{ $mission->id }}"><i
+                                                        class='bx bx-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
 
                             <!-- {{-- Pagination --}} -->
+                            @if ($missions->hasPages())
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-4 align-items-center">
+
+                                        <!-- {{-- Prev Button --}} -->
+                                        <li class="page-item {{ $missions->onFirstPage() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary"
+                                                href="{{ $missions->previousPageUrl() }}">Prev</a>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Page Input + Total --}} -->
+                                        <li class="page-item d-flex align-items-center" style="margin: 0 2px;">
+                                            <form action="" method="GET" class="d-flex align-items-center"
+                                                style="margin:0; padding:0;">
+                                                <input type="number" name="page" value="{{ $missions->currentPage() }}" min="1"
+                                                    max="{{ $missions->lastPage() }}" readonly class="form-control">
+                                                <input type="text" value="/ {{ $missions->lastPage() }}" readonly
+                                                    class="form-control">
+                                            </form>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Next Button --}} -->
+                                        <li class="page-item {{ !$missions->hasMorePages() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $missions->nextPageUrl() }}">Next</a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -116,7 +149,8 @@
     <!-- Add About Modal -->
     <div class="modal fade" id="addAboutModal" tabindex="-1" aria-labelledby="addAboutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ route('admin.about.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="modal-content" action="{{ route('admin.about.store') }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
 
                 <div class="modal-header">
@@ -161,10 +195,11 @@
         <div class="modal fade" id="updateAboutModal{{ $about->id }}" tabindex="-1" aria-labelledby="updateAboutModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
-                <form class="modal-content" action="{{ route('admin.about.update', $about->id) }}" method="POST" enctype="multipart/form-data">
+                <form class="modal-content" action="{{ route('admin.about.update', $about->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    
+
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateAboutModalLabel">Update About</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -185,11 +220,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="descriptionOne" class="form-label">Description One</label>
-                            <textarea class="form-control" id="descriptionOne" rows="3" name="description_one">{{ $about->description_one }}</textarea>
+                            <textarea class="form-control" id="descriptionOne" rows="3"
+                                name="description_one">{{ $about->description_one }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="descriptionTwo" class="form-label">Description Two</label>
-                            <textarea class="form-control" id="descriptionTwo" rows="3" name="description_two">{{ $about->description_two }}</textarea>
+                            <textarea class="form-control" id="descriptionTwo" rows="3"
+                                name="description_two">{{ $about->description_two }}</textarea>
                         </div>
 
                     </div>
@@ -279,7 +316,9 @@
     <!-- Add Mission Modal -->
     <div class="modal fade" id="addMissionModal" tabindex="-1" aria-labelledby="addMissionModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content">
+            <form class="modal-content" action="{{ route('admin.mission.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                
                 <div class="modal-header">
                     <h5 class="modal-title" id="addMissionModalLabel">Add Mission</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -288,15 +327,15 @@
 
                     <div class="mb-3">
                         <label for="missionImage" class="form-label">Mission Image</label>
-                        <input class="form-control" type="file" id="missionImage">
+                        <input class="form-control" type="file" id="missionImage" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title">
+                        <input type="text" class="form-control" id="title" name="title">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" rows="3"></textarea>
+                        <textarea class="form-control" id="description" rows="3" name="description"></textarea>
                     </div>
 
                 </div>
@@ -311,79 +350,92 @@
 
 
     <!-- Update Mission Modal -->
-    <div class="modal fade" id="updateMissionModal" tabindex="-1" aria-labelledby="updateMissionModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateMissionModalLabel">Update Mission</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    @foreach($missions as $mission)
+        <div class="modal fade" id="updateMissionModal{{ $mission->id }}" tabindex="-1"
+            aria-labelledby="updateMissionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.mission.update', $mission->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateMissionModalLabel">Update Mission</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
 
-                    <div class="mb-3">
-                        <label for="missionImage" class="form-label">Mission Image</label>
-                        <input class="form-control" type="file" id="missionImage">
-                    </div>
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title">
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" rows="3"></textarea>
-                    </div>
+                        <div class="mb-3">
+                            <label for="missionImage" class="form-label">Mission Image</label>
+                            <input class="form-control" type="file" id="missionImage" name="image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ $mission->title }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3"
+                                name="description">{{ $mission->description }}</textarea>
+                        </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Update Mission Modal -->
 
 
     <!-- Delete Mission Modal -->
-    <div class="modal fade" id="deleteMissionModal" tabindex="-1" aria-labelledby="deleteMissionModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteMissionModalLabel">Delete Mission</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this mission?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+    @foreach($missions as $mission)
+        <div class="modal fade" id="deleteMissionModal{{ $mission->id }}" tabindex="-1"
+            aria-labelledby="deleteMissionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.mission.delete', $mission->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteMissionModalLabel">Delete Mission</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this mission?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Delete Mission Modal -->
 
     <!-- Mission Description Modal -->
-    <div class="modal fade" id="missionDescriptionModal" tabindex="-1" aria-labelledby="missionDescriptionModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="missionDescriptionModalLabel">Mission Description</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>RCPL</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </form>
+    @foreach($missions as $mission)
+        <div class="modal fade" id="missionDescriptionModal{{ $mission->id }}" tabindex="-1"
+            aria-labelledby="missionDescriptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="missionDescriptionModalLabel">Mission Description</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ $mission->description }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Mission Description Modal -->
 
 

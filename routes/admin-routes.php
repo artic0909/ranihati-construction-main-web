@@ -50,6 +50,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::delete('/about/delete/{id}', [AdminController::class, 'aboutDelete'])->name('about.delete');
     // About =================================================================>
 
+    // Mission =================================================================>
+    Route::post('/mission/store', [AdminController::class, 'missionStore'])->name('mission.store');
+    Route::put('/mission/update/{id}', [AdminController::class, 'missionUpdate'])->name('mission.update');
+    Route::delete('/mission/delete/{id}', [AdminController::class, 'missionDelete'])->name('mission.delete');
+    // Mission =================================================================>
+
     Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
     Route::get('/faqs', [AdminController::class, 'faqs'])->name('faqs');
     Route::get('/testimonials', [AdminController::class, 'testimonials'])->name('testimonials');

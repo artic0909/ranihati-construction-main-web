@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\About;
 use App\Models\Carousel;
 use App\Models\Fact;
+use App\Models\Mission;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\Work;
@@ -508,7 +509,8 @@ class AdminController extends Controller
     public function about()
     {
         $abouts = About::get();
-        return view('admin.about', compact('abouts'));
+        $missions = Mission::orderBy('id', 'desc')->paginate(10);
+        return view('admin.about', compact('abouts', 'missions'));
     }
 
     public function aboutStore(Request $request)
@@ -594,6 +596,87 @@ class AdminController extends Controller
                 ->with('error', 'Failed to delete about. Please try again.');
         }
     }
+    // Mission
+    public function missionStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+            ]);
+
+            $imagePath = $request->file('image')->store('missions', 'public');
+
+            Mission::create([
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+                'image' => $imagePath,
+            ]);
+
+            return redirect()->route('admin.about')
+                ->with('success', 'Mission added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.about')
+                ->with('error', 'Failed to add mission. Please try again.');
+        }
+    }
+
+    public function missionUpdate(Request $request, $id)
+    {
+        try {
+            $mission = Mission::findOrFail($id);
+
+            $validated = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+            ]);
+
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path('storage/' . $mission->image))) {
+                    unlink(public_path('storage/' . $mission->image));
+                }
+
+                $imagePath = $request->file('image')->store('missions', 'public');
+                $mission->image = $imagePath;
+            }
+
+            $mission->update([
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+            ]);
+
+            return redirect()->route('admin.about')
+                ->with('success', 'Mission updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.about')
+                ->with('error', 'Failed to update mission. Please try again.');
+        }
+    }
+
+    public function missionDelete($id)
+    {
+        try {
+            $mission = Mission::findOrFail($id);
+
+            if (file_exists(public_path('storage/' . $mission->image))) {
+                unlink(public_path('storage/' . $mission->image));
+            }
+
+            $mission->delete();
+
+            return redirect()->route('admin.about')
+                ->with('success', 'Mission deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.about')
+                ->with('error', 'Failed to delete mission. Please try again.');
+        }
+    }
+
+
+
+
 
     public function clients()
     {
