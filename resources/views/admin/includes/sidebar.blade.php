@@ -66,7 +66,7 @@
         <li class="menu-item {{ Request::routeIs('admin.about') ? 'active' : '' }}">
             <a href="{{ route('admin.about') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-info-circle'></i>
-                <div data-i18n="About">Add About</div>
+                <div data-i18n="About">About & Mission</div>
             </a>
         </li>
 

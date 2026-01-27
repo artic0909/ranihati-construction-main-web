@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\About;
 use App\Models\Carousel;
+use App\Models\Client;
 use App\Models\Fact;
 use App\Models\Mission;
 use App\Models\Project;
@@ -673,15 +674,85 @@ class AdminController extends Controller
                 ->with('error', 'Failed to delete mission. Please try again.');
         }
     }
+    // About =================================================================>
 
 
-
-
-
+    // Clients =================================================================>
     public function clients()
     {
-        return view('admin.clients');
+        $clients = Client::orderBy('id', 'desc')->paginate(10);
+        return view('admin.clients', compact('clients'));
     }
+
+    public function clientsStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            $imagePath = $request->file('image')->store('clients', 'public');
+
+            Client::create([
+                'image' => $imagePath,
+            ]);
+
+            return redirect()->route('admin.clients')
+                ->with('success', 'Client added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.clients')
+                ->with('error', 'Failed to add client. Please try again.');
+        }
+    }
+
+    public function clientsUpdate(Request $request, $id)
+    {
+        try {
+            $client = Client::findOrFail($id);
+
+            $validated = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path('storage/' . $client->image))) {
+                    unlink(public_path('storage/' . $client->image));
+                }
+
+                $imagePath = $request->file('image')->store('clients', 'public');
+                $client->image = $imagePath;
+            }
+
+            $client->save();
+
+            return redirect()->route('admin.clients')
+                ->with('success', 'Client updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.clients')
+                ->with('error', 'Failed to update client. Please try again.');
+        }
+    }
+
+    public function clientsDelete($id)
+    {
+        try {
+            $client = Client::findOrFail($id);
+
+            if (file_exists(public_path('storage/' . $client->image))) {
+                unlink(public_path('storage/' . $client->image));
+            }
+
+            $client->delete();
+
+            return redirect()->route('admin.clients')
+                ->with('success', 'Client deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.clients')
+                ->with('error', 'Failed to delete client. Please try again.');
+        }
+    }
+    // Clients =================================================================>
+
 
     public function faqs()
     {
