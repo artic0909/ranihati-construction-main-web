@@ -43,23 +43,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr style="text-align: left;">
-                                        <td>1</td>
-                                        <td>
-                                            <img src="{{ asset('./img/logo.png') }}" alt="Project Image"
-                                                style="width: 100px; height: 100px; object-fit: cover;">
-                                        </td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td>
-                                            <button class="btn btn-info me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateProjectModal"><i class='bx bx-pencil'></i></button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteProjectModal"><i class='bx bx-trash'></i></button>
-                                        </td>
-                                    </tr>
-
+                                    @foreach ($projects as $project)
+                                        <tr style="text-align: left;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <img src="{{ asset('storage/' . $project->image) }}" alt="Project Image"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                            </td>
+                                            <td>RCPL</td>
+                                            <td>RCPL</td>
+                                            <td>
+                                                <button class="btn btn-info me-2" data-bs-toggle="modal"
+                                                    data-bs-target="#updateProjectModal"><i class='bx bx-pencil'></i></button>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteProjectModal"><i class='bx bx-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!-- {{-- Pagination --}} -->
@@ -83,19 +83,19 @@
 
                     <div class="mb-3">
                         <label for="projectImage" class="form-label">Project Image</label>
-                        <input class="form-control" type="file" id="projectImage">
+                        <input class="form-control" type="file" id="projectImage" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="projectTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="projectTitle">
+                        <input type="text" class="form-control" id="projectTitle" name="title">
                     </div>
                     <div class="mb-3">
                         <label for="projectTitle" class="form-label">Category</label>
-                        <select name="projectCategory" id="projectCategory" class="form-control">
+                        <select name="category" id="projectCategory" class="form-control">
                             <option value="">Select Category</option>
-                            <option value="">Complete</option>
-                            <option value="">Running</option>
-                            <option value="">Upcoming</option>
+                            <option value="complete">Complete</option>
+                            <option value="running">Running</option>
+                            <option value="upcoming">Upcoming</option>
                         </select>
                     </div>
 
@@ -110,63 +110,67 @@
     <!-- End Add Project Modal -->
 
     <!-- Update Project Modal -->
-    <div class="modal fade" id="updateProjectModal" tabindex="-1" aria-labelledby="updateProjectModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateProjectModalLabel">Update Project</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    @foreach ($projects as $project)
+        <div class="modal fade" id="updateProjectModal{{$project->id}}" tabindex="-1" aria-labelledby="updateProjectModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateProjectModalLabel">Update Project</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
 
-                    <div class="mb-3">
-                        <label for="projectImage" class="form-label">Project Image</label>
-                        <input class="form-control" type="file" id="projectImage">
-                    </div>
-                    <div class="mb-3">
-                        <label for="projectTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="projectTitle">
-                    </div>
-                    <div class="mb-3">
-                        <label for="projectCategory" class="form-label">Category</label>
-                        <select name="projectCategory" id="projectCategory" class="form-control">
-                            <option value="">Select Category</option>
-                            <option value="">Complete</option>
-                            <option value="">Running</option>
-                            <option value="">Upcoming</option>
-                        </select>
-                    </div>
+                        <div class="mb-3">
+                            <label for="projectImage" class="form-label">Project Image</label>
+                            <input class="form-control" type="file" id="projectImage" name="image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="projectTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="projectTitle" name="title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="projectCategory" class="form-label">Category</label>
+                            <select name="category" id="projectCategory" class="form-control">
+                                <option value="">Select Category</option>
+                                <option value="complete">Complete</option>
+                                <option value="running">Running</option>
+                                <option value="upcoming">Upcoming</option>
+                            </select>
+                        </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Update Project Modal -->
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteProjectModalLabel">Delete Project</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this project?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+    @foreach ($projects as $project)
+        <div class="modal fade" id="deleteProjectModal{{$project->id}}" tabindex="-1" aria-labelledby="deleteProjectModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteProjectModalLabel">Delete Project</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this project?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Delete Modal -->
 
 @endsection
