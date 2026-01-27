@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,8 @@ Route::get('/blogs', function () {
 Route::get('/contact', function () {
     return view('frontend.contact');
 })->name('contact');
+
+Route::post('/enquiry', [FrontendController::class, 'storeEnquiry'])->name('enquiry.store');
 
 Route::get('/blog-details', function () {
     return view('frontend.blog-details');

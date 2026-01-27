@@ -6,6 +6,7 @@ use App\Models\About;
 use App\Models\Blog;
 use App\Models\Carousel;
 use App\Models\Client;
+use App\Models\Enquiry;
 use App\Models\Fact;
 use App\Models\FAQ;
 use App\Models\Mission;
@@ -1018,10 +1019,41 @@ class AdminController extends Controller
     }
     // Blogs ==================================================================>
 
+    // Enquiry ==================================================================>
     public function enquiry()
     {
-        return view('admin.enquiry');
+        $enquiries = Enquiry::orderBy('id', 'desc')->paginate(10);
+        return view('admin.enquiry', compact('enquiries'));
     }
+
+    public function enquiryReplyStore(Request $request, $id)
+    {
+        try {
+            $enquiry = Enquiry::findOrFail($id);
+            $enquiry->reply = $request->reply;
+            $enquiry->status = 'replied';
+            $enquiry->save();
+            return redirect()->route('admin.enquiry')
+                ->with('success', 'Enquiry replied successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.enquiry')
+                ->with('error', 'Failed to reply enquiry. Please try again.');
+        }
+    }
+
+    public function enquiryDelete($id)
+    {
+        try {
+            $enquiry = Enquiry::findOrFail($id);
+            $enquiry->delete();
+            return redirect()->route('admin.enquiry')
+                ->with('success', 'Enquiry deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.enquiry')
+                ->with('error', 'Failed to delete enquiry. Please try again.');
+        }
+    }
+    // Enquiry ==================================================================>
 
     public function jobEnquiry()
     {

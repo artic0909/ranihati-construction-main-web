@@ -84,7 +84,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::delete('/blogs/delete/{id}', [AdminController::class, 'blogsDelete'])->name('blogs.delete');
     // Blogs ==================================================================>
 
+    // Enquiry ==================================================================>
     Route::get('/enquiry', [AdminController::class, 'enquiry'])->name('enquiry');
+    Route::put('/enquiry/reply/{id}', [AdminController::class, 'enquiryReplyStore'])->name('enquiry.reply');
+    Route::delete('/enquiry/delete/{id}', [AdminController::class, 'enquiryDelete'])->name('enquiry.delete');
+    // Enquiry ==================================================================>
+
+
     Route::get('/job-enquiry', [AdminController::class, 'jobEnquiry'])->name('job-enquiry');
 
 });
