@@ -70,7 +70,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::delete('/faqs/delete/{id}', [AdminController::class, 'faqsDelete'])->name('faqs.delete');
     // FAQs ==================================================================>
 
+    // Testimonials ==================================================================>
     Route::get('/testimonials', [AdminController::class, 'testimonials'])->name('testimonials');
+    Route::post('/testimonials/store', [AdminController::class, 'testimonialsStore'])->name('testimonials.store');
+    Route::put('/testimonials/update/{id}', [AdminController::class, 'testimonialsUpdate'])->name('testimonials.update');
+    Route::delete('/testimonials/delete/{id}', [AdminController::class, 'testimonialsDelete'])->name('testimonials.delete');
+    // Testimonials ==================================================================>
+
+    
     Route::get('/blogs', [AdminController::class, 'blogs'])->name('blogs');
     Route::get('/enquiry', [AdminController::class, 'enquiry'])->name('enquiry');
     Route::get('/job-enquiry', [AdminController::class, 'jobEnquiry'])->name('job-enquiry');

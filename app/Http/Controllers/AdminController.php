@@ -10,6 +10,7 @@ use App\Models\FAQ;
 use App\Models\Mission;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\Testimonial;
 use App\Models\Work;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -826,16 +827,102 @@ class AdminController extends Controller
                 ->with('error', 'Failed to delete FAQ. Please try again.');
         }
     }
+    // FAQs ==================================================================>
 
+    // Testimonials ==================================================================>
     public function testimonials()
     {
-        return view('admin.testimonials');
+        $testimonials = Testimonial::orderBy('id', 'desc')->paginate(10);
+        return view('admin.testimonials', compact('testimonials'));
     }
 
+    public function testimonialsStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'name' => 'required|string|max:255',
+                'profession' => 'required|string|max:255',
+                'description' => 'required|string',
+            ]);
+
+            $imagePath = $request->file('image')->store('testimonials', 'public');
+
+            Testimonial::create([
+                'image' => $imagePath,
+                'name' => $validated['name'],
+                'profession' => $validated['profession'],
+                'description' => $validated['description'],
+            ]);
+
+            return redirect()->route('admin.testimonials')
+                ->with('success', 'Testimonial added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.testimonials')
+                ->with('error', 'Failed to add testimonial. Please try again.');
+        }
+    }
+
+    public function testimonialsUpdate(Request $request, $id)
+    {
+        try {
+            $testimonial = Testimonial::findOrFail($id);
+
+            $validated = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'name' => 'required|string|max:255',
+                'profession' => 'required|string|max:255',
+                'description' => 'required|string',
+            ]);
+
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path('storage/' . $testimonial->image))) {
+                    unlink(public_path('storage/' . $testimonial->image));
+                }
+
+                $imagePath = $request->file('image')->store('testimonials', 'public');
+                $testimonial->image = $imagePath;
+            }
+
+            $testimonial->name = $validated['name'];
+            $testimonial->profession = $validated['profession'];
+            $testimonial->description = $validated['description'];
+            $testimonial->save();
+
+            return redirect()->route('admin.testimonials')
+                ->with('success', 'Testimonial updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.testimonials')
+                ->with('error', 'Failed to update testimonial. Please try again.');
+        }
+    }
+
+    public function testimonialsDelete($id)
+    {
+        try {
+            $testimonial = Testimonial::findOrFail($id);
+
+            if (file_exists(public_path('storage/' . $testimonial->image))) {
+                unlink(public_path('storage/' . $testimonial->image));
+            }
+
+            $testimonial->delete();
+
+            return redirect()->route('admin.testimonials')
+                ->with('success', 'Testimonial deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.testimonials')
+                ->with('error', 'Failed to delete testimonial. Please try again.');
+        }
+    }
+    // Testimonials ==================================================================>
+
+    // Blogs ==================================================================>
     public function blogs()
     {
         return view('admin.blogs');
     }
+    // Blogs ==================================================================>
 
     public function enquiry()
     {

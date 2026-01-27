@@ -88,41 +88,64 @@
 
                     <div class="mb-3">
                         <label for="blogImage" class="form-label">Blog Image</label>
-                        <input class="form-control" type="file" id="blogImage">
+                        <input class="form-control" type="file" id="blogImage" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="blogTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="blogTitle">
+                        <input type="text" class="form-control" id="blogTitle" name="title">
                     </div>
                     <div class="mb-3">
                         <label for="blogCategory" class="form-label">Category</label>
-                        <select name="blogCategory" id="blogCategory" class="form-control">
+                        <select name="category" id="blogCategory" class="form-control">
                             <option value="">Select Category</option>
-                            <option value="">Category 1</option>
-                            <option value="">Category 2</option>
-                            <option value="">Category 3</option>
+                            <option value="technology">Technology</option>
+                            <option value="lifestyle">Lifestyle</option>
+                            <option value="business">Business</option>
+                            <option value="health">Health & Wellness</option>
+                            <option value="travel">Travel</option>
+                            <option value="food">Food & Recipes</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="education">Education</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="sports">Sports</option>
+                            <option value="politics">Politics</option>
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="blogTag" class="form-label">Tag</label>
-                        <select name="blogTag" id="blogTag" class="form-control">
+                        <select name="tag" id="blogTag" class="form-control">
                             <option value="">Select Tag</option>
-                            <option value="">Tag 1</option>
-                            <option value="">Tag 2</option>
-                            <option value="">Tag 3</option>
+                            <option value="trending">Trending</option>
+                            <option value="featured">Featured</option>
+                            <option value="latest">Latest</option>
+                            <option value="popular">Popular</option>
+                            <option value="tutorial">Tutorial</option>
+                            <option value="guide">Guide</option>
+                            <option value="tips">Tips & Tricks</option>
+                            <option value="news">News</option>
+                            <option value="review">Review</option>
+                            <option value="howto">How To</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="government">Government</option>
+                            <option value="election">Election</option>
+                            <option value="policy">Policy</option>
+                            <option value="international">International</option>
+                            <option value="debate">Debate</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="blogDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="blogDescription" rows="3"></textarea>
+                        <textarea class="form-control" id="blogDescription" rows="3" name="description"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="blogAuthorName" class="form-label">Author Name</label>
-                        <input type="text" class="form-control" id="blogAuthorName">
+                        <input type="text" class="form-control" id="blogAuthorName" name="author_name">
                     </div>
                     <div class="mb-3">
                         <label for="blogAboutAuthor" class="form-label">About Author</label>
-                        <textarea class="form-control" id="blogAboutAuthor" rows="3"></textarea>
+                        <textarea class="form-control" id="blogAboutAuthor" rows="3" name="about_author"></textarea>
                     </div>
 
                 </div>
@@ -136,144 +159,181 @@
     <!-- End Add Work Modal -->
 
     <!-- Update Testimonial Modal -->
-    <div class="modal fade" id="updateBlogModal" tabindex="-1" aria-labelledby="updateBlogModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateBlogModalLabel">Update Blog</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    @foreach ($blogs as $blog)
+        <div class="modal fade" id="updateBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="updateBlogModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateBlogModalLabel">Update Blog</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
 
-                    <div class="mb-3">
-                        <label for="blogImage" class="form-label">Blog Image</label>
-                        <input class="form-control" type="file" id="blogImage">
-                    </div>
-                    <div class="mb-3">
-                        <label for="blogTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="blogTitle">
-                    </div>
-                    <div class="mb-3">
-                        <label for="blogCategory" class="form-label">Category</label>
-                        <select name="blogCategory" id="blogCategory" class="form-control">
-                            <option value="">Select Category</option>
-                            <option value="">Category 1</option>
-                            <option value="">Category 2</option>
-                            <option value="">Category 3</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="blogTag" class="form-label">Tag</label>
-                        <select name="blogTag" id="blogTag" class="form-control">
-                            <option value="">Select Tag</option>
-                            <option value="">Tag 1</option>
-                            <option value="">Tag 2</option>
-                            <option value="">Tag 3</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="blogDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="blogDescription" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="blogAuthorName" class="form-label">Author Name</label>
-                        <input type="text" class="form-control" id="blogAuthorName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="blogAboutAuthor" class="form-label">About Author</label>
-                        <textarea class="form-control" id="blogAboutAuthor" rows="3"></textarea>
-                    </div>
+                        <div class="mb-3">
+                            <label for="blogImage" class="form-label">Blog Image</label>
+                            <input class="form-control" type="file" id="blogImage" name="image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="blogTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="blogTitle" name="title" value="{{ $blog->title }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="blogCategory" class="form-label">Category</label>
+                            <select name="category" id="blogCategory" class="form-control">
+                                <option value="">Select Category</option>
+                                <option value="technology" {{ $blog->category == 'technology' ? 'selected' : '' }}>Technology
+                                </option>
+                                <option value="lifestyle" {{ $blog->category == 'lifestyle' ? 'selected' : '' }}>Lifestyle
+                                </option>
+                                <option value="business" {{ $blog->category == 'business' ? 'selected' : '' }}>Business</option>
+                                <option value="health" {{ $blog->category == 'health' ? 'selected' : '' }}>Health & Wellness
+                                </option>
+                                <option value="travel" {{ $blog->category == 'travel' ? 'selected' : '' }}>Travel</option>
+                                <option value="food" {{ $blog->category == 'food' ? 'selected' : '' }}>Food & Recipes</option>
+                                <option value="fashion" {{ $blog->category == 'fashion' ? 'selected' : '' }}>Fashion</option>
+                                <option value="education" {{ $blog->category == 'education' ? 'selected' : '' }}>Education
+                                </option>
+                                <option value="entertainment" {{ $blog->category == 'entertainment' ? 'selected' : '' }}>
+                                    Entertainment</option>
+                                <option value="sports" {{ $blog->category == 'sports' ? 'selected' : '' }}>Sports</option>
+                                <option value="politics" {{ $blog->category == 'politics' ? 'selected' : '' }}>Politics</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="blogTag" class="form-label">Tag</label>
+                            <select name="tag" id="blogTag" class="form-control">
+                                <option value="">Select Tag</option>
+                                <option value="trending" {{ $blog->tag == 'trending' ? 'selected' : '' }}>Trending</option>
+                                <option value="featured" {{ $blog->tag == 'featured' ? 'selected' : '' }}>Featured</option>
+                                <option value="latest" {{ $blog->tag == 'latest' ? 'selected' : '' }}>Latest</option>
+                                <option value="popular" {{ $blog->tag == 'popular' ? 'selected' : '' }}>Popular</option>
+                                <option value="tutorial" {{ $blog->tag == 'tutorial' ? 'selected' : '' }}>Tutorial</option>
+                                <option value="guide" {{ $blog->tag == 'guide' ? 'selected' : '' }}>Guide</option>
+                                <option value="tips" {{ $blog->tag == 'tips' ? 'selected' : '' }}>Tips & Tricks</option>
+                                <option value="news" {{ $blog->tag == 'news' ? 'selected' : '' }}>News</option>
+                                <option value="review" {{ $blog->tag == 'review' ? 'selected' : '' }}>Review</option>
+                                <option value="howto" {{ $blog->tag == 'howto' ? 'selected' : '' }}>How To</option>
+                                <option value="beginner" {{ $blog->tag == 'beginner' ? 'selected' : '' }}>Beginner</option>
+                                <option value="advanced" {{ $blog->tag == 'advanced' ? 'selected' : '' }}>Advanced</option>
+                                <option value="government" {{ $blog->tag == 'government' ? 'selected' : '' }}>Government</option>
+                                <option value="election" {{ $blog->tag == 'election' ? 'selected' : '' }}>Election</option>
+                                <option value="policy" {{ $blog->tag == 'policy' ? 'selected' : '' }}>Policy</option>
+                                <option value="international" {{ $blog->tag == 'international' ? 'selected' : '' }}>International
+                                </option>
+                                <option value="debate" {{ $blog->tag == 'debate' ? 'selected' : '' }}>Debate</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="blogDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="blogDescription" rows="3"
+                                name="description">{{ $blog->description }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="blogAuthorName" class="form-label">Author Name</label>
+                            <input type="text" class="form-control" id="blogAuthorName" name="author_name"
+                                value="{{ $blog->author_name }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="blogAboutAuthor" class="form-label">About Author</label>
+                            <textarea class="form-control" id="blogAboutAuthor" rows="3"
+                                name="about_author">{{ $blog->about_author }}</textarea>
+                        </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Update Blog Modal -->
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteBlogModal" tabindex="-1" aria-labelledby="deleteBlogModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteBlogModalLabel">Delete Blog</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this blog?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+    @foreach ($blogs as $blog)
+        <div class="modal fade" id="deleteBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="deleteBlogModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteBlogModalLabel">Delete Blog</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this blog?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Delete Modal -->
 
     <!-- View Blog Modal -->
-    <div class="modal fade" id="viewBlogModal" tabindex="-1" aria-labelledby="viewBlogModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewBlogModalLabel">View Blog</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 text-center mb-4">
-                            <img src="{{ asset('img/logo.png') }}" class="img-fluid rounded" alt="Blog Image" style="max-height: 300px; width: auto; object-fit: cover;">
-                        </div>
-                        
-                        <div class="col-12">
-                            <h3 class="fw-bold text-primary mb-2">Blog Title goes here</h3>
-                            
-                            <div class="d-flex flex-wrap gap-2 mb-4">
-                                <span class="badge bg-label-primary fs-6">Category Name</span>
-                                <span class="badge bg-label-info fs-6">Tag Name</span>
+    @foreach ($blogs as $blog)
+        <div class="modal fade" id="viewBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="viewBlogModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewBlogModalLabel">View Blog</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <img src="{{ asset('storage/' . $blog->image) }}" class="img-fluid rounded"
+                                    alt="Blog Image" style="max-height: 300px; width: auto; object-fit: cover;">
                             </div>
 
-                            <div class="mb-4">
-                                <h5 class="fw-semibold">Description</h5>
-                                <p class="text-secondary">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptatum. Beatae, dolor. 
-                                    Quisquam, voluptatum. Beatae, dolor.
-                                </p>
-                            </div>
+                            <div class="col-12">
+                                <h3 class="fw-bold text-primary mb-2">{{ $blog->title }}</h3>
 
-                            <div class="card bg-light border-0">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <i class='bx bx-user-circle fs-3 text-primary me-2'></i>
-                                        <h5 class="fw-bold mb-0">Author Details</h5>
-                                    </div>
-                                    <hr class="mt-1 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <small class="text-uppercase text-muted fw-bold">Author Name</small>
-                                            <p class="fw-semibold text-dark">John Doe</p>
+                                <div class="d-flex flex-wrap gap-2 mb-4">
+                                    <span class="badge bg-label-primary fs-6">{{ $blog->category }}</span>
+                                    <span class="badge bg-label-info fs-6">{{ $blog->tags }}</span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5 class="fw-semibold">Description</h5>
+                                    <p class="text-secondary">
+                                        {{ $blog->description }}
+                                    </p>
+                                </div>
+
+                                <div class="card bg-light border-0">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class='bx bx-user-circle fs-3 text-primary me-2'></i>
+                                            <h5 class="fw-bold mb-0">Author Details</h5>
                                         </div>
-                                        <div class="col-md-8">
-                                            <small class="text-uppercase text-muted fw-bold">About Author</small>
-                                            <p class="text-secondary mb-0">
-                                                Platform specific content for the author bio. Experienced writer with a passion for technology.
-                                            </p>
+                                        <hr class="mt-1 mb-3">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <small class="text-uppercase text-muted fw-bold">Author Name</small>
+                                                <p class="fw-semibold text-dark">{{ $blog->author_name }}</p>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <small class="text-uppercase text-muted fw-bold">About Author</small>
+                                                <p class="text-secondary mb-0">
+                                                    {{ $blog->about_author }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endforeach
     <!-- End View Blog Modal -->
 
 
