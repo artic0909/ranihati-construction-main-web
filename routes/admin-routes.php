@@ -30,8 +30,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::put('/projects/update/{id}', [AdminController::class, 'projectUpdate'])->name('projects.update');
     Route::delete('/projects/delete/{id}', [AdminController::class, 'projectDelete'])->name('projects.delete');
 
-    
+    // Services =================================================================>
     Route::get('/services', [AdminController::class, 'services'])->name('services');
+    Route::post('/services/store', [AdminController::class, 'serviceStore'])->name('services.store');
+    Route::put('/services/update/{id}', [AdminController::class, 'serviceUpdate'])->name('services.update');
+    Route::delete('/services/delete/{id}', [AdminController::class, 'serviceDelete'])->name('services.delete');
+
+    
     Route::get('/facts', [AdminController::class, 'facts'])->name('facts');
     Route::get('/about', [AdminController::class, 'about'])->name('about');
     Route::get('/clients', [AdminController::class, 'clients'])->name('clients');

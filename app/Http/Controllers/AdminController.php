@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carousel;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\Work;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -356,10 +357,85 @@ class AdminController extends Controller
     }
     // Project =================================================================>
 
+    // Services =================================================================>
     public function services()
     {
-        return view('admin.services');
+        $services = Service::orderBy('id', 'desc')->paginate(10);
+        return view('admin.services', compact('services'));
     }
+
+    public function serviceStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+            ]);
+
+            $imagePath = $request->file('image')->store('services', 'public');
+
+            Service::create([
+                'image' => $imagePath,
+                'title' => $validated['title'],
+            ]);
+
+            return redirect()->route('admin.services')
+                ->with('success', 'Service added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.services')
+                ->with('error', 'Failed to add service. Please try again.');
+        }
+    }
+
+    public function serviceUpdate(Request $request, $id)
+    {
+        try {
+            $service = Service::findOrFail($id);
+
+            $validated = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+            ]);
+
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path('storage/' . $service->image))) {
+                    unlink(public_path('storage/' . $service->image));
+                }
+
+                $imagePath = $request->file('image')->store('services', 'public');
+                $service->image = $imagePath;
+            }
+
+            $service->title = $validated['title'];
+            $service->save();
+
+            return redirect()->route('admin.services')
+                ->with('success', 'Service updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.services')
+                ->with('error', 'Failed to update service. Please try again.');
+        }
+    }
+
+    public function serviceDelete($id)
+    {
+        try {
+            $service = Service::findOrFail($id);
+
+            if (file_exists(public_path('storage/' . $service->image))) {
+                unlink(public_path('storage/' . $service->image));
+            }
+
+            $service->delete();
+
+            return redirect()->route('admin.services')
+                ->with('success', 'Service deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.services')
+                ->with('error', 'Failed to delete service. Please try again.');
+        }
+    }
+    // Services =================================================================>
 
     public function facts()
     {

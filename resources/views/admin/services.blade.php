@@ -42,22 +42,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr style="text-align: left;">
-                                        <td>1</td>
-                                        <td>
-                                            <img src="{{ asset('./img/logo.png') }}" alt="Project Image"
-                                                style="width: 100px; height: 100px; object-fit: cover;">
-                                        </td>
-                                        <td>RCPL</td>
-                                        <td>
-                                            <button class="btn btn-info me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateServiceModal"><i class='bx bx-pencil'></i></button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteServiceModal"><i class='bx bx-trash'></i></button>
-                                        </td>
-                                    </tr>
-
+                                    @foreach ($services as $service)
+                                        <tr style="text-align: left;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <img src="{{ asset('storage/' . $service->image) }}" alt="Project Image"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                            </td>
+                                            <td>{{ $service->title }}</td>
+                                            <td>
+                                                <button class="btn btn-info me-2" data-bs-toggle="modal"
+                                                    data-bs-target="#updateServiceModal{{ $service->id }}"><i
+                                                        class='bx bx-pencil'></i></button>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteServiceModal{{ $service->id }}"><i
+                                                        class='bx bx-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!-- {{-- Pagination --}} -->
@@ -72,7 +74,9 @@
     <!-- Add Service Modal -->
     <div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content">
+            <form class="modal-content" action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="addServiceModalLabel">Add Service</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -81,11 +85,11 @@
 
                     <div class="mb-3">
                         <label for="serviceImage" class="form-label">Service Image</label>
-                        <input class="form-control" type="file" id="serviceImage">
+                        <input class="form-control" type="file" id="serviceImage" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="serviceTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="serviceTitle">
+                        <input type="text" class="form-control" id="serviceTitle" name="title">
                     </div>
 
                 </div>
@@ -99,54 +103,64 @@
     <!-- End Add Project Modal -->
 
     <!-- Update Service Modal -->
-    <div class="modal fade" id="updateServiceModal" tabindex="-1" aria-labelledby="updateServiceModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateServiceModalLabel">Update Service</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="mb-3">
-                        <label for="serviceImage" class="form-label">Service Image</label>
-                        <input class="form-control" type="file" id="serviceImage">
+    @foreach ($services as $service)
+        <div class="modal fade" id="updateServiceModal{{ $service->id }}" tabindex="-1"
+            aria-labelledby="updateServiceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateServiceModalLabel">Update Service</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="serviceTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="serviceTitle">
-                    </div>
+                    <div class="modal-body">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+                        <div class="mb-3">
+                            <label for="serviceImage" class="form-label">Service Image</label>
+                            <input class="form-control" type="file" id="serviceImage" name="image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="serviceTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="serviceTitle" name="title" value="{{ $service->title }}">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Update Service Modal -->
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteServiceModal" tabindex="-1" aria-labelledby="deleteServiceModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteServiceModalLabel">Delete Service</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this service?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+    @foreach ($services as $service)
+        <div class="modal fade" id="deleteServiceModal{{ $service->id }}" tabindex="-1"
+            aria-labelledby="deleteServiceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.services.delete', $service->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteServiceModalLabel">Delete Service</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this service?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Delete Modal -->
 
 @endsection
