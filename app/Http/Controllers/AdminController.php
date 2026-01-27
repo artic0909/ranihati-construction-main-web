@@ -688,20 +688,27 @@ class AdminController extends Controller
     {
         try {
             $validated = $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'images' => 'required|array',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
-            $imagePath = $request->file('image')->store('clients', 'public');
+            $uploadedCount = 0;
 
-            Client::create([
-                'image' => $imagePath,
-            ]);
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('clients', 'public');
+
+                Client::create([
+                    'image' => $imagePath,
+                ]);
+
+                $uploadedCount++;
+            }
 
             return redirect()->route('admin.clients')
-                ->with('success', 'Client added successfully.');
+                ->with('success', $uploadedCount . ' client(s) added successfully.');
         } catch (\Exception $e) {
             return redirect()->route('admin.clients')
-                ->with('error', 'Failed to add client. Please try again.');
+                ->with('error', 'Failed to add client(s). Please try again.');
         }
     }
 

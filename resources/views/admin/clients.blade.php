@@ -102,9 +102,11 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="clientImage" class="form-label">Client Image</label>
-                        <input class="form-control" type="file" id="clientImage" name="image">
+                        <label for="clientImages" class="form-label">Client Images (You can select multiple)</label>
+                        <input class="form-control" type="file" id="clientImages" name="images[]" multiple
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
                     </div>
+                    <small class="text-muted">Each selected image will be added as a separate client entry.</small>
 
                 </div>
                 <div class="modal-footer">
