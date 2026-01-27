@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carousel;
+use App\Models\Project;
 use App\Models\Work;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -270,10 +271,90 @@ class AdminController extends Controller
     }
     // Work =================================================================>
 
+
+    // Project =================================================================>
     public function projects()
     {
-        return view('admin.projects');
+        $projects = Project::orderBy('id', 'desc')->paginate(10);
+        return view('admin.projects', compact('projects'));
     }
+
+    public function projectStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+                'category' => 'required|string|max:255',
+            ]);
+
+            $imagePath = $request->file('image')->store('projects', 'public');
+
+            Project::create([
+                'image' => $imagePath,
+                'title' => $validated['title'],
+                'category' => $validated['category'],
+            ]);
+
+            return redirect()->route('admin.projects')
+                ->with('success', 'Project added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.projects')
+                ->with('error', 'Failed to add project. Please try again.');
+        }
+    }
+
+    public function projectUpdate(Request $request, $id)
+    {
+        try {
+            $project = Project::findOrFail($id);
+
+            $validated = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+                'category' => 'required|string|max:255',
+            ]);
+
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path('storage/' . $project->image))) {
+                    unlink(public_path('storage/' . $project->image));
+                }
+
+                $imagePath = $request->file('image')->store('projects', 'public');
+                $project->image = $imagePath;
+            }
+
+            $project->title = $validated['title'];
+            $project->category = $validated['category'];
+            $project->save();
+
+            return redirect()->route('admin.projects')
+                ->with('success', 'Project updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.projects')
+                ->with('error', 'Failed to update project. Please try again.');
+        }
+    }
+
+    public function projectDelete($id)
+    {
+        try {
+            $project = Project::findOrFail($id);
+
+            if (file_exists(public_path('storage/' . $project->image))) {
+                unlink(public_path('storage/' . $project->image));
+            }
+
+            $project->delete();
+
+            return redirect()->route('admin.projects')
+                ->with('success', 'Project deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.projects')
+                ->with('error', 'Failed to delete project. Please try again.');
+        }
+    }
+    // Project =================================================================>
 
     public function services()
     {
