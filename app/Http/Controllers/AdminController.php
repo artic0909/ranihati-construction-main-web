@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
 use App\Models\Carousel;
 use App\Models\Fact;
 use App\Models\Project;
@@ -503,9 +504,95 @@ class AdminController extends Controller
     }
     // Facts =================================================================>
 
+    // About =================================================================>
     public function about()
     {
-        return view('admin.about');
+        $abouts = About::get();
+        return view('admin.about', compact('abouts'));
+    }
+
+    public function aboutStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'phone' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'description_one' => 'required|string',
+                'description_two' => 'required|string',
+            ]);
+
+            $imagePath = $request->file('image')->store('abouts', 'public');
+
+            About::create([
+                'image' => $imagePath,
+                'phone' => $validated['phone'],
+                'email' => $validated['email'],
+                'description_one' => $validated['description_one'],
+                'description_two' => $validated['description_two'],
+            ]);
+
+            return redirect()->route('admin.about')
+                ->with('success', 'About added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.about')
+                ->with('error', 'Failed to add about. Please try again.');
+        }
+    }
+
+    public function aboutUpdate(Request $request, $id)
+    {
+        try {
+            $about = About::findOrFail($id);
+
+            $validated = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'phone' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'description_one' => 'required|string',
+                'description_two' => 'required|string',
+            ]);
+
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path('storage/' . $about->image))) {
+                    unlink(public_path('storage/' . $about->image));
+                }
+
+                $imagePath = $request->file('image')->store('abouts', 'public');
+                $about->image = $imagePath;
+            }
+
+            $about->phone = $validated['phone'];
+            $about->email = $validated['email'];
+            $about->description_one = $validated['description_one'];
+            $about->description_two = $validated['description_two'];
+            $about->save();
+
+            return redirect()->route('admin.about')
+                ->with('success', 'About updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.about')
+                ->with('error', 'Failed to update about. Please try again.');
+        }
+    }
+
+    public function aboutDelete($id)
+    {
+        try {
+            $about = About::findOrFail($id);
+
+            if (file_exists(public_path('storage/' . $about->image))) {
+                unlink(public_path('storage/' . $about->image));
+            }
+
+            $about->delete();
+
+            return redirect()->route('admin.about')
+                ->with('success', 'About deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.about')
+                ->with('error', 'Failed to delete about. Please try again.');
+        }
     }
 
     public function clients()

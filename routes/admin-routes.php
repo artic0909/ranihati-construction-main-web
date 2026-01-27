@@ -43,8 +43,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::delete('/facts/delete/{id}', [AdminController::class, 'factDelete'])->name('facts.delete');
     // Facts =================================================================>
 
-    
+    // About =================================================================>
     Route::get('/about', [AdminController::class, 'about'])->name('about');
+    Route::post('/about/store', [AdminController::class, 'aboutStore'])->name('about.store');
+    Route::put('/about/update/{id}', [AdminController::class, 'aboutUpdate'])->name('about.update');
+    Route::delete('/about/delete/{id}', [AdminController::class, 'aboutDelete'])->name('about.delete');
+    // About =================================================================>
+
     Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
     Route::get('/faqs', [AdminController::class, 'faqs'])->name('faqs');
     Route::get('/testimonials', [AdminController::class, 'testimonials'])->name('testimonials');
