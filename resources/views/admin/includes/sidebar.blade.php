@@ -102,15 +102,15 @@
             <span class="menu-header-text">Enquiry</span>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.enquiry') ? 'active' : '' }}">
+            <a href="{{ route('admin.enquiry') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-envelope'></i>
                 <div data-i18n="Enquiry">Enquiry</div>
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.job-enquiry') ? 'active' : '' }}">
+            <a href="{{ route('admin.job-enquiry') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-briefcase'></i>
                 <div data-i18n="Job">Job Enquiry</div>
             </a>
@@ -120,8 +120,8 @@
             <span class="menu-header-text">Profile</span>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ Request::routeIs('admin.profile') ? 'active' : '' }}">
+            <a href="{{ route('admin.profile') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Enquiry">Profile Details</div>
             </a>

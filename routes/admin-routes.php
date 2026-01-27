@@ -19,4 +19,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::get('/faqs', [AdminController::class, 'faqs'])->name('faqs');
     Route::get('/testimonials', [AdminController::class, 'testimonials'])->name('testimonials');
     Route::get('/blogs', [AdminController::class, 'blogs'])->name('blogs');
+    Route::get('/enquiry', [AdminController::class, 'enquiry'])->name('enquiry');
+    Route::get('/job-enquiry', [AdminController::class, 'jobEnquiry'])->name('job-enquiry');
+    Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
 });
