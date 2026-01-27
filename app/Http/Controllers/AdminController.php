@@ -193,7 +193,7 @@ class AdminController extends Controller
     // Work =================================================================>
     public function work()
     {
-        $works = Work::orderBy('id', 'desc')->get();
+        $works = Work::orderBy('id', 'desc')->paginate(10);
         return view('admin.work', compact('works'));
     }
 

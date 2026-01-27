@@ -116,7 +116,7 @@
 
                     <div class="mb-3">
                         <label for="workImage" class="form-label">Work Image</label>
-                        <input class="form-control" type="file" id="workImage" name="work_image">
+                        <input class="form-control" type="file" id="workImage" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="workTitle" class="form-label">Title</label>
@@ -151,7 +151,7 @@
 
                         <div class="mb-3">
                             <label for="workImage" class="form-label">Work Image</label>
-                            <input class="form-control" type="file" id="workImage" name="work_image">
+                            <input class="form-control" type="file" id="workImage" name="image">
                         </div>
                         <div class="mb-3">
                             <label for="workTitle" class="form-label">Title</label>
