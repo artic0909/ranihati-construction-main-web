@@ -43,23 +43,54 @@
                                 </thead>
                                 <tbody>
 
-                                    <tr style="text-align: left;">
-                                        <td>1</td>
-                                        <td>
-                                            Question
-                                        </td>
-                                        <td>Answer</td>
-                                        <td>
-                                            <button class="btn btn-info me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateFaqModal"><i class='bx bx-pencil'></i></button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteFaqModal"><i class='bx bx-trash'></i></button>
-                                        </td>
-                                    </tr>
-
+                                    @foreach ($faqs as $faq)
+                                        <tr style="text-align: left;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                {{ $faq->question }}
+                                            </td>
+                                            <td>{{ $faq->answer }}</td>
+                                            <td>
+                                                <button class="btn btn-info me-2" data-bs-toggle="modal"
+                                                    data-bs-target="#updateFaqModal{{ $faq->id }}"><i
+                                                        class='bx bx-pencil'></i></button>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteFaqModal{{ $faq->id }}"><i
+                                                        class='bx bx-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!-- {{-- Pagination --}} -->
+                            @if ($faqs->hasPages())
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-4 align-items-center">
+
+                                        <!-- {{-- Prev Button --}} -->
+                                        <li class="page-item {{ $faqs->onFirstPage() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $faqs->previousPageUrl() }}">Prev</a>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Page Input + Total --}} -->
+                                        <li class="page-item d-flex align-items-center" style="margin: 0 2px;">
+                                            <form action="" method="GET" class="d-flex align-items-center"
+                                                style="margin:0; padding:0;">
+                                                <input type="number" name="page" value="{{ $faqs->currentPage() }}" min="1"
+                                                    max="{{ $faqs->lastPage() }}" readonly class="form-control">
+                                                <input type="text" value="/ {{ $faqs->lastPage() }}" readonly
+                                                    class="form-control">
+                                            </form>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Next Button --}} -->
+                                        <li class="page-item {{ !$faqs->hasMorePages() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $faqs->nextPageUrl() }}">Next</a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -71,7 +102,9 @@
     <!-- Add Faq Modal -->
     <div class="modal fade" id="addFaqModal" tabindex="-1" aria-labelledby="addFaqModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content">
+            <form class="modal-content" action="{{ route('admin.faqs.store') }}" method="POST">
+                @csrf
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="addFaqModalLabel">Add Faq</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -80,11 +113,11 @@
 
                     <div class="mb-3">
                         <label for="question" class="form-label">Question</label>
-                        <input class="form-control" type="text" id="question">
+                        <input class="form-control" type="text" id="question" name="question">
                     </div>
                     <div class="mb-3">
                         <label for="answer" class="form-label">Answer</label>
-                        <input type="text" class="form-control" id="answer">
+                        <input type="text" class="form-control" id="answer" name="answer">
                     </div>
 
                 </div>
@@ -98,52 +131,65 @@
     <!-- End Add Work Modal -->
 
     <!-- Update Faq Modal -->
-    <div class="modal fade" id="updateFaqModal" tabindex="-1" aria-labelledby="updateFaqModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateFaqModalLabel">Update Faq</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    @foreach ($faqs as $faq)
+        <div class="modal fade" id="updateFaqModal{{ $faq->id }}" tabindex="-1" aria-labelledby="updateFaqModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.faqs.update', $faq->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
-                    <div class="mb-3">
-                        <label for="faqQuestion" class="form-label">Question</label>
-                        <input class="form-control" type="text" id="faqQuestion">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateFaqModalLabel">Update Faq</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="faqAnswer" class="form-label">Answer</label>
-                        <input type="text" class="form-control" id="faqAnswer">
-                    </div>
+                    <div class="modal-body">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+                        <div class="mb-3">
+                            <label for="faqQuestion" class="form-label">Question</label>
+                            <input class="form-control" type="text" id="faqQuestion" name="question"
+                                value="{{ $faq->question }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqAnswer" class="form-label">Answer</label>
+                            <input type="text" class="form-control" id="faqAnswer" name="answer" value="{{ $faq->answer }}">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Update Faq Modal -->
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteFaqModal" tabindex="-1" aria-labelledby="deleteFaqModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteFaqModalLabel">Delete Faq</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this faq?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+    @foreach ($faqs as $faq)
+        <div class="modal fade" id="deleteFaqModal{{ $faq->id }}" tabindex="-1" aria-labelledby="deleteFaqModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.faqs.delete', $faq->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteFaqModalLabel">Delete Faq</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this faq?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Delete Modal -->
 
 @endsection

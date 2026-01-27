@@ -6,6 +6,7 @@ use App\Models\About;
 use App\Models\Carousel;
 use App\Models\Client;
 use App\Models\Fact;
+use App\Models\FAQ;
 use App\Models\Mission;
 use App\Models\Project;
 use App\Models\Service;
@@ -760,10 +761,70 @@ class AdminController extends Controller
     }
     // Clients =================================================================>
 
-
+    // FAQs ==================================================================>
     public function faqs()
     {
-        return view('admin.faqs');
+        $faqs = FAQ::orderBy('id', 'desc')->paginate(10);
+        return view('admin.faqs', compact('faqs'));
+    }
+
+    public function faqsStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'question' => 'required|string|max:255',
+                'answer' => 'required|string',
+            ]);
+
+            FAQ::create([
+                'question' => $validated['question'],
+                'answer' => $validated['answer'],
+            ]);
+
+            return redirect()->route('admin.faqs')
+                ->with('success', 'FAQ added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.faqs')
+                ->with('error', 'Failed to add FAQ. Please try again.');
+        }
+    }
+
+    public function faqsUpdate(Request $request, $id)
+    {
+        try {
+            $faq = FAQ::findOrFail($id);
+
+            $validated = $request->validate([
+                'question' => 'required|string|max:255',
+                'answer' => 'required|string',
+            ]);
+
+            $faq->update([
+                'question' => $validated['question'],
+                'answer' => $validated['answer'],
+            ]);
+
+            return redirect()->route('admin.faqs')
+                ->with('success', 'FAQ updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.faqs')
+                ->with('error', 'Failed to update FAQ. Please try again.');
+        }
+    }
+
+    public function faqsDelete($id)
+    {
+        try {
+            $faq = FAQ::findOrFail($id);
+
+            $faq->delete();
+
+            return redirect()->route('admin.faqs')
+                ->with('success', 'FAQ deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.faqs')
+                ->with('error', 'Failed to delete FAQ. Please try again.');
+        }
     }
 
     public function testimonials()
