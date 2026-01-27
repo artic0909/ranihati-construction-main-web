@@ -129,8 +129,8 @@
 
                             <!-- Final Qualification -->
                             <div class="control-group">
-                                <input type="text" class="form-control" id="qualification" placeholder="Final Qualification" name="qualification"
-                                    required="required"
+                                <input type="text" class="form-control" id="qualification" placeholder="Final Qualification (e.g., B.Tech, MBA, Diploma)" name="qualification"
+                                    required="required" maxlength="255" minlength="2"
                                     data-validation-required-message="Please enter your qualification" />
                                 <p class="help-block text-danger"></p>
                             </div>
@@ -161,16 +161,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="control-group">
-                                        <input type="text" class="form-control" id="tenthMarks" placeholder="10th Marks(%)" name="tenth_percentage"
-                                            required="required"
+                                        <input type="number" class="form-control" id="tenthMarks" placeholder="10th Marks(%)" name="tenth_percentage"
+                                            required="required" min="0" max="100" step="0.01"
                                             data-validation-required-message="Please enter your 10th marks" />
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="control-group">
-                                        <input type="text" class="form-control" id="hsMarks" placeholder="HS Marks (%)" name="hs_percentage"
-                                            required="required"
+                                        <input type="number" class="form-control" id="hsMarks" placeholder="HS Marks (%)" name="hs_percentage"
+                                            required="required" min="0" max="100" step="0.01"
                                             data-validation-required-message="Please enter your HS marks" />
                                         <p class="help-block text-danger"></p>
                                     </div>
@@ -181,16 +181,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="control-group">
-                                        <input type="tel" class="form-control" id="phone" placeholder="Phone Number" name="phone"
-                                            required="required"
+                                        <input type="tel" class="form-control" id="phone" placeholder="Phone Number (10 digits)" name="phone"
+                                            required="required" pattern="[0-9]{10}" maxlength="10" minlength="10"
                                             data-validation-required-message="Please enter your phone number" />
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="control-group">
-                                        <input type="text" class="form-control" id="address" placeholder="Address :" name="address"
-                                            required="required"
+                                        <input type="text" class="form-control" id="address" placeholder="Address" name="address"
+                                            required="required" minlength="10" maxlength="500"
                                             data-validation-required-message="Please enter your address" />
                                         <p class="help-block text-danger"></p>
                                     </div>
@@ -200,8 +200,8 @@
                             <!-- Upload CV Section -->
                             <div class="control-group">
                                 <label style="display: block; margin-bottom: 10px; font-weight: 600;">Upload Your
-                                    CV</label>
-                                <input type="file" class="form-control" id="cvUpload" accept=".pdf,.doc,.docx" name="cv"
+                                    CV (PDF only, max 10MB)</label>
+                                <input type="file" class="form-control" id="cvUpload" accept=".pdf" name="cv"
                                     required="required" data-validation-required-message="Please upload your CV" />
                                 <p class="help-block text-danger"></p>
                             </div>

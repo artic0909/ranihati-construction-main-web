@@ -32,6 +32,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">SL</th>
+                                        <th scope="col">Date</th>
                                         <th scope="col">Job Title</th>
                                         <th scope="col">Qualification</th>
                                         <th scope="col">HS Division</th>
@@ -47,15 +48,16 @@
                                     @foreach($jobEnquiries as $jobEnquiry)
                                         <tr style="text-align: left;">
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $jobEnquiry->created_at->format('d-m-Y') }}</td>
                                             <td>{{ $jobEnquiry->job_title }}</td>
                                             <td>{{ $jobEnquiry->qualification }}</td>
                                             <td>{{ ucfirst($jobEnquiry->hs_division) }}</td>
                                             <td>{{ $jobEnquiry->tenth_percentage }}%</td>
                                             <td>{{ $jobEnquiry->hs_percentage }}%</td>
                                             <td>{{ $jobEnquiry->phone }}</td>
-                                            <td>{{ Str::limit($jobEnquiry->address, 30) }}</td>
+                                            <td>{{ Str::limit($jobEnquiry->address, 15) }}</td>
                                             <td><button class="btn btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#viewCVModal{{ $jobEnquiry->id }}">View CV</button></td>
+                                                    data-bs-target="#viewCVModal{{ $jobEnquiry->id }}">CV</button></td>
                                             <td>
                                                 <button class="btn btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#deleteEnquiryModal{{ $jobEnquiry->id }}"><i class='bx bx-trash'></i></button>
