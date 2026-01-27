@@ -45,29 +45,59 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr style="text-align: left;">
-                                        <td>1</td>
-                                        <td>
-                                            <img src="{{ asset('img/logo.png') }}" alt="Work Image"
-                                                style="width: 100px; height: 100px; object-fit: cover;">
-                                        </td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td><button class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#viewBlogModal">View Details</button></td>
-                                        <td>
-                                            <button class="btn btn-info me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateBlogModal"><i class='bx bx-pencil'></i></button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteBlogModal"><i class='bx bx-trash'></i></button>
-                                        </td>
-                                    </tr>
-
+                                    @foreach($blogs as $blog)
+                                        <tr style="text-align: left;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <img src="{{ asset('storage/' . $blog->image) }}" alt="Work Image"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                            </td>
+                                            <td>{{ $blog->title }}</td>
+                                            <td>{{ $blog->category }}</td>
+                                            <td>{{ $blog->author_name }}</td>
+                                            <td><button class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#viewBlogModal{{ $blog->id }}">View Details</button></td>
+                                            <td>
+                                                <button class="btn btn-info me-2" data-bs-toggle="modal"
+                                                    data-bs-target="#updateBlogModal{{ $blog->id }}"><i
+                                                        class='bx bx-pencil'></i></button>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteBlogModal{{ $blog->id }}"><i
+                                                        class='bx bx-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!-- {{-- Pagination --}} -->
+                            @if ($blogs->hasPages())
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-4 align-items-center">
+
+                                        <!-- {{-- Prev Button --}} -->
+                                        <li class="page-item {{ $blogs->onFirstPage() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $blogs->previousPageUrl() }}">Prev</a>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Page Input + Total --}} -->
+                                        <li class="page-item d-flex align-items-center" style="margin: 0 2px;">
+                                            <form action="" method="GET" class="d-flex align-items-center"
+                                                style="margin:0; padding:0;">
+                                                <input type="number" name="page" value="{{ $blogs->currentPage() }}" min="1"
+                                                    max="{{ $blogs->lastPage() }}" readonly class="form-control">
+                                                <input type="text" value="/ {{ $blogs->lastPage() }}" readonly
+                                                    class="form-control">
+                                            </form>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Next Button --}} -->
+                                        <li class="page-item {{ !$blogs->hasMorePages() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $blogs->nextPageUrl() }}">Next</a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -79,7 +109,10 @@
     <!-- Add Blog Modal -->
     <div class="modal fade" id="addBlogModal" tabindex="-1" aria-labelledby="addBlogModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form class="modal-content">
+            <form class="modal-content" action="{{ route('admin.blogs.store') }}" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="addBlogModalLabel">Add Blog</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -99,6 +132,20 @@
                         <select name="category" id="blogCategory" class="form-control">
                             <option value="">Select Category</option>
                             <option value="technology">Technology</option>
+                            <option value="construction">Construction</option>
+                            <option value="finishing">Finishing</option>
+                            <option value="facade">Facade Work</option>
+                            <option value="cladding">Cladding Work</option>
+                            <option value="canopy">Canopy</option>
+                            <option value="false-ceiling">False Ceiling</option>
+                            <option value="waterproofing">Waterproofing</option>
+                            <option value="structural-glazing">Structural Glazing</option>
+                            <option value="interior">Interior Work</option>
+                            <option value="exterior">Exterior Work</option>
+                            <option value="painting">Painting Work</option>
+                            <option value="flooring">Flooring Work</option>
+                            <option value="tiling">Tiling Work</option>
+                            <option value="insulation">Insulation Work</option>
                             <option value="lifestyle">Lifestyle</option>
                             <option value="business">Business</option>
                             <option value="health">Health & Wellness</option>
@@ -109,13 +156,6 @@
                             <option value="entertainment">Entertainment</option>
                             <option value="sports">Sports</option>
                             <option value="politics">Politics</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="blogTag" class="form-label">Tag</label>
-                        <select name="tag" id="blogTag" class="form-control">
-                            <option value="">Select Tag</option>
                             <option value="trending">Trending</option>
                             <option value="featured">Featured</option>
                             <option value="latest">Latest</option>
@@ -133,6 +173,38 @@
                             <option value="policy">Policy</option>
                             <option value="international">International</option>
                             <option value="debate">Debate</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="blogTag" class="form-label">Tag</label>
+                        <select name="tag" id="blogTag" class="form-control">
+                            <option value="">Select Tag</option>
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="industrial">Industrial</option>
+                            <option value="renovation">Renovation</option>
+                            <option value="new-build">New Build</option>
+                            <option value="eco-friendly">Eco-Friendly</option>
+                            <option value="budget">Budget-Friendly</option>
+                            <option value="premium">Premium</option>
+                            <option value="diy">DIY</option>
+                            <option value="professional">Professional</option>
+                            <option value="modern">Modern</option>
+                            <option value="traditional">Traditional</option>
+                            <option value="contemporary">Contemporary</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="affordable">Affordable</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="repair">Repair</option>
+                            <option value="installation">Installation</option>
+                            <option value="design">Design</option>
+                            <option value="planning">Planning</option>
+                            <option value="safety">Safety</option>
+                            <option value="materials">Materials</option>
+                            <option value="techniques">Techniques</option>
+                            <option value="before-after">Before & After</option>
+                            <option value="case-study">Case Study</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -160,9 +232,14 @@
 
     <!-- Update Testimonial Modal -->
     @foreach ($blogs as $blog)
-        <div class="modal fade" id="updateBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="updateBlogModalLabel" aria-hidden="true">
+        <div class="modal fade" id="updateBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="updateBlogModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
-                <form class="modal-content">
+                <form class="modal-content" action="{{ route('admin.blogs.update', $blog->id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateBlogModalLabel">Update Blog</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -197,12 +274,113 @@
                                     Entertainment</option>
                                 <option value="sports" {{ $blog->category == 'sports' ? 'selected' : '' }}>Sports</option>
                                 <option value="politics" {{ $blog->category == 'politics' ? 'selected' : '' }}>Politics</option>
+                                <option value="construction" {{ $blog->category == 'construction' ? 'selected' : '' }}>
+                                    Construction
+                                </option>
+                                <option value="finishing" {{ $blog->category == 'finishing' ? 'selected' : '' }}>Finishing
+                                </option>
+                                <option value="facade" {{ $blog->category == 'facade' ? 'selected' : '' }}>Facade Work
+                                </option>
+                                <option value="cladding" {{ $blog->category == 'cladding' ? 'selected' : '' }}>Cladding Work
+                                </option>
+                                <option value="canopy" {{ $blog->category == 'canopy' ? 'selected' : '' }}>Canopy</option>
+                                <option value="false-ceiling" {{ $blog->category == 'false-ceiling' ? 'selected' : '' }}>
+                                    False Ceiling</option>
+                                <option value="waterproofing" {{ $blog->category == 'waterproofing' ? 'selected' : '' }}>
+                                    Waterproofing</option>
+                                <option value="structural-glazing" {{ $blog->category == 'structural-glazing' ? 'selected' : '' }}>Structural Glazing</option>
+                                <option value="interior" {{ $blog->category == 'interior' ? 'selected' : '' }}>Interior Work
+                                </option>
+                                <option value="exterior" {{ $blog->category == 'exterior' ? 'selected' : '' }}>Exterior Work
+                                </option>
+                                <option value="painting" {{ $blog->category == 'painting' ? 'selected' : '' }}>Painting Work
+                                </option>
+                                <option value="flooring" {{ $blog->category == 'flooring' ? 'selected' : '' }}>Flooring Work
+                                </option>
+                                <option value="tiling" {{ $blog->category == 'tiling' ? 'selected' : '' }}>Tiling Work</option>
+                                <option value="insulation" {{ $blog->category == 'insulation' ? 'selected' : '' }}>Insulation
+                                    Work</option>
+                                <option value="lifestyle" {{ $blog->category == 'lifestyle' ? 'selected' : '' }}>Lifestyle
+                                </option>
+                                <option value="business" {{ $blog->category == 'business' ? 'selected' : '' }}>Business</option>
+                                <option value="health" {{ $blog->category == 'health' ? 'selected' : '' }}>Health & Wellness
+                                </option>
+                                <option value="travel" {{ $blog->category == 'travel' ? 'selected' : '' }}>Travel</option>
+                                <option value="food" {{ $blog->category == 'food' ? 'selected' : '' }}>Food & Recipes</option>
+                                <option value="fashion" {{ $blog->category == 'fashion' ? 'selected' : '' }}>Fashion</option>
+                                <option value="education" {{ $blog->category == 'education' ? 'selected' : '' }}>Education
+                                </option>
+                                <option value="entertainment" {{ $blog->category == 'entertainment' ? 'selected' : '' }}>
+                                    Entertainment</option>
+                                <option value="sports" {{ $blog->category == 'sports' ? 'selected' : '' }}>Sports</option>
+                                <option value="politics" {{ $blog->category == 'politics' ? 'selected' : '' }}>Politics</option>
+                                <option value="trending" {{ $blog->category == 'trending' ? 'selected' : '' }}>Trending</option>
+                                <option value="featured" {{ $blog->category == 'featured' ? 'selected' : '' }}>Featured</option>
+                                <option value="latest" {{ $blog->category == 'latest' ? 'selected' : '' }}>Latest</option>
+                                <option value="popular" {{ $blog->category == 'popular' ? 'selected' : '' }}>Popular</option>
+                                <option value="tutorial" {{ $blog->category == 'tutorial' ? 'selected' : '' }}>Tutorial</option>
+                                <option value="guide" {{ $blog->category == 'guide' ? 'selected' : '' }}>Guide</option>
+                                <option value="tips" {{ $blog->category == 'tips' ? 'selected' : '' }}>Tips & Tricks</option>
+                                <option value="news" {{ $blog->category == 'news' ? 'selected' : '' }}>News</option>
+                                <option value="review" {{ $blog->category == 'review' ? 'selected' : '' }}>Review</option>
+                                <option value="howto" {{ $blog->category == 'howto' ? 'selected' : '' }}>How To</option>
+                                <option value="beginner" {{ $blog->category == 'beginner' ? 'selected' : '' }}>Beginner</option>
+                                <option value="advanced" {{ $blog->category == 'advanced' ? 'selected' : '' }}>Advanced</option>
+                                <option value="government" {{ $blog->category == 'government' ? 'selected' : '' }}>Government
+                                </option>
+                                <option value="election" {{ $blog->category == 'election' ? 'selected' : '' }}>Election</option>
+                                <option value="policy" {{ $blog->category == 'policy' ? 'selected' : '' }}>Policy</option>
+                                <option value="international" {{ $blog->category == 'international' ? 'selected' : '' }}>
+                                    International</option>
+                                <option value="debate" {{ $blog->category == 'debate' ? 'selected' : '' }}>Debate</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="blogTag" class="form-label">Tag</label>
                             <select name="tag" id="blogTag" class="form-control">
                                 <option value="">Select Tag</option>
+                                <option value="residential" {{ $blog->tag == 'residential' ? 'selected' : '' }}>Residential
+                                </option>
+                                <option value="commercial" {{ $blog->tag == 'commercial' ? 'selected' : '' }}>Commercial
+                                </option>
+                                <option value="industrial" {{ $blog->tag == 'industrial' ? 'selected' : '' }}>Industrial
+                                </option>
+                                <option value="renovation" {{ $blog->tag == 'renovation' ? 'selected' : '' }}>Renovation
+                                </option>
+                                <option value="new-build" {{ $blog->tag == 'new-build' ? 'selected' : '' }}>New Build
+                                </option>
+                                <option value="eco-friendly" {{ $blog->tag == 'eco-friendly' ? 'selected' : '' }}>Eco-Friendly
+                                </option>
+                                <option value="budget" {{ $blog->tag == 'budget' ? 'selected' : '' }}>Budget-Friendly
+                                </option>
+                                <option value="premium" {{ $blog->tag == 'premium' ? 'selected' : '' }}>Premium</option>
+                                <option value="diy" {{ $blog->tag == 'diy' ? 'selected' : '' }}>DIY</option>
+                                <option value="professional" {{ $blog->tag == 'professional' ? 'selected' : '' }}>Professional
+                                </option>
+                                <option value="modern" {{ $blog->tag == 'modern' ? 'selected' : '' }}>Modern</option>
+                                <option value="traditional" {{ $blog->tag == 'traditional' ? 'selected' : '' }}>Traditional
+                                </option>
+                                <option value="contemporary" {{ $blog->tag == 'contemporary' ? 'selected' : '' }}>
+                                    Contemporary</option>
+                                <option value="luxury" {{ $blog->tag == 'luxury' ? 'selected' : '' }}>Luxury</option>
+                                <option value="affordable" {{ $blog->tag == 'affordable' ? 'selected' : '' }}>Affordable
+                                </option>
+                                <option value="maintenance" {{ $blog->tag == 'maintenance' ? 'selected' : '' }}>Maintenance
+                                </option>
+                                <option value="repair" {{ $blog->tag == 'repair' ? 'selected' : '' }}>Repair</option>
+                                <option value="installation" {{ $blog->tag == 'installation' ? 'selected' : '' }}>
+                                    Installation</option>
+                                <option value="design" {{ $blog->tag == 'design' ? 'selected' : '' }}>Design</option>
+                                <option value="planning" {{ $blog->tag == 'planning' ? 'selected' : '' }}>Planning</option>
+                                <option value="safety" {{ $blog->tag == 'safety' ? 'selected' : '' }}>Safety</option>
+                                <option value="materials" {{ $blog->tag == 'materials' ? 'selected' : '' }}>Materials
+                                </option>
+                                <option value="techniques" {{ $blog->tag == 'techniques' ? 'selected' : '' }}>Techniques
+                                </option>
+                                <option value="before-after" {{ $blog->tag == 'before-after' ? 'selected' : '' }}>
+                                    Before & After</option>
+                                <option value="case-study" {{ $blog->tag == 'case-study' ? 'selected' : '' }}>Case Study
+                                </option>
                                 <option value="trending" {{ $blog->tag == 'trending' ? 'selected' : '' }}>Trending</option>
                                 <option value="featured" {{ $blog->tag == 'featured' ? 'selected' : '' }}>Featured</option>
                                 <option value="latest" {{ $blog->tag == 'latest' ? 'selected' : '' }}>Latest</option>
@@ -215,11 +393,12 @@
                                 <option value="howto" {{ $blog->tag == 'howto' ? 'selected' : '' }}>How To</option>
                                 <option value="beginner" {{ $blog->tag == 'beginner' ? 'selected' : '' }}>Beginner</option>
                                 <option value="advanced" {{ $blog->tag == 'advanced' ? 'selected' : '' }}>Advanced</option>
-                                <option value="government" {{ $blog->tag == 'government' ? 'selected' : '' }}>Government</option>
+                                <option value="government" {{ $blog->tag == 'government' ? 'selected' : '' }}>Government
+                                </option>
                                 <option value="election" {{ $blog->tag == 'election' ? 'selected' : '' }}>Election</option>
                                 <option value="policy" {{ $blog->tag == 'policy' ? 'selected' : '' }}>Policy</option>
-                                <option value="international" {{ $blog->tag == 'international' ? 'selected' : '' }}>International
-                                </option>
+                                <option value="international" {{ $blog->tag == 'international' ? 'selected' : '' }}>
+                                    International</option>
                                 <option value="debate" {{ $blog->tag == 'debate' ? 'selected' : '' }}>Debate</option>
                             </select>
                         </div>
@@ -252,9 +431,13 @@
 
     <!-- Delete Modal -->
     @foreach ($blogs as $blog)
-        <div class="modal fade" id="deleteBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="deleteBlogModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="deleteBlogModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
-                <form class="modal-content">
+                <form class="modal-content" action="{{ route('admin.blogs.delete', $blog->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
                     <div class="modal-header">
                         <h5 class="modal-title" id="deleteBlogModalLabel">Delete Blog</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -274,7 +457,8 @@
 
     <!-- View Blog Modal -->
     @foreach ($blogs as $blog)
-        <div class="modal fade" id="viewBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="viewBlogModalLabel" aria-hidden="true">
+        <div class="modal fade" id="viewBlogModal{{ $blog->id }}" tabindex="-1" aria-labelledby="viewBlogModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -284,8 +468,8 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 text-center mb-4">
-                                <img src="{{ asset('storage/' . $blog->image) }}" class="img-fluid rounded"
-                                    alt="Blog Image" style="max-height: 300px; width: auto; object-fit: cover;">
+                                <img src="{{ asset('storage/' . $blog->image) }}" class="img-fluid rounded" alt="Blog Image"
+                                    style="max-height: 300px; width: auto; object-fit: cover;">
                             </div>
 
                             <div class="col-12">
@@ -293,7 +477,7 @@
 
                                 <div class="d-flex flex-wrap gap-2 mb-4">
                                     <span class="badge bg-label-primary fs-6">{{ $blog->category }}</span>
-                                    <span class="badge bg-label-info fs-6">{{ $blog->tags }}</span>
+                                    <span class="badge bg-label-info fs-6">{{ $blog->tag }}</span>
                                 </div>
 
                                 <div class="mb-4">

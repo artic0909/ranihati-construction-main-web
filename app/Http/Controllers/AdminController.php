@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Models\Blog;
 use App\Models\Carousel;
 use App\Models\Client;
 use App\Models\Fact;
@@ -920,7 +921,100 @@ class AdminController extends Controller
     // Blogs ==================================================================>
     public function blogs()
     {
-        return view('admin.blogs');
+        $blogs = Blog::orderBy('id', 'desc')->paginate(10);
+        return view('admin.blogs', compact('blogs'));
+    }
+
+    public function blogsStore(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+                'category' => 'required|string|max:255',
+                'tag' => 'required|string|max:255',
+                'description' => 'required|string',
+                'author_name' => 'required|string|max:255',
+                'about_author' => 'required|string',
+            ]);
+
+            $imagePath = $request->file('image')->store('blogs', 'public');
+
+            Blog::create([
+                'image' => $imagePath,
+                'title' => $validated['title'],
+                'category' => $validated['category'],
+                'tag' => $validated['tag'],
+                'description' => $validated['description'],
+                'author_name' => $validated['author_name'],
+                'about_author' => $validated['about_author'],
+            ]);
+
+            return redirect()->route('admin.blogs')
+                ->with('success', 'Blog added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.blogs')
+                ->with('error', 'Failed to add blog. Please try again.');
+        }
+    }
+
+    public function blogsUpdate(Request $request, $id)
+    {
+        try {
+            $blog = Blog::findOrFail($id);
+
+            $validated = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'title' => 'required|string|max:255',
+                'category' => 'required|string|max:255',
+                'tag' => 'required|string|max:255',
+                'description' => 'required|string',
+                'author_name' => 'required|string|max:255',
+                'about_author' => 'required|string',
+            ]);
+
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path('storage/' . $blog->image))) {
+                    unlink(public_path('storage/' . $blog->image));
+                }
+
+                $imagePath = $request->file('image')->store('blogs', 'public');
+                $blog->image = $imagePath;
+            }
+
+            $blog->title = $validated['title'];
+            $blog->category = $validated['category'];
+            $blog->tag = $validated['tag'];
+            $blog->description = $validated['description'];
+            $blog->author_name = $validated['author_name'];
+            $blog->about_author = $validated['about_author'];
+            $blog->save();
+
+            return redirect()->route('admin.blogs')
+                ->with('success', 'Blog updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.blogs')
+                ->with('error', 'Failed to update blog. Please try again.');
+        }
+    }
+
+    public function blogsDelete($id)
+    {
+        try {
+            $blog = Blog::findOrFail($id);
+
+            if (file_exists(public_path('storage/' . $blog->image))) {
+                unlink(public_path('storage/' . $blog->image));
+            }
+
+            $blog->delete();
+
+            return redirect()->route('admin.blogs')
+                ->with('success', 'Blog deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.blogs')
+                ->with('error', 'Failed to delete blog. Please try again.');
+        }
     }
     // Blogs ==================================================================>
 
