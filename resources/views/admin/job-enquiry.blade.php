@@ -44,27 +44,56 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr style="text-align: left;">
-                                        <td>1</td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td>RCPL</td>
-                                        <td><button class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#viewCVModal">View CV</button></td>
-                                        <td>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteEnquiryModal"><i class='bx bx-trash'></i></button>
-                                        </td>
-                                    </tr>
-
+                                    @foreach($jobEnquiries as $jobEnquiry)
+                                        <tr style="text-align: left;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $jobEnquiry->job_title }}</td>
+                                            <td>{{ $jobEnquiry->qualification }}</td>
+                                            <td>{{ ucfirst($jobEnquiry->hs_division) }}</td>
+                                            <td>{{ $jobEnquiry->tenth_percentage }}%</td>
+                                            <td>{{ $jobEnquiry->hs_percentage }}%</td>
+                                            <td>{{ $jobEnquiry->phone }}</td>
+                                            <td>{{ Str::limit($jobEnquiry->address, 30) }}</td>
+                                            <td><button class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#viewCVModal{{ $jobEnquiry->id }}">View CV</button></td>
+                                            <td>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteEnquiryModal{{ $jobEnquiry->id }}"><i class='bx bx-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!-- {{-- Pagination --}} -->
+                            @if ($jobEnquiries->hasPages())
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-4 align-items-center">
+
+                                        <!-- {{-- Prev Button --}} -->
+                                        <li class="page-item {{ $jobEnquiries->onFirstPage() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary"
+                                                href="{{ $jobEnquiries->previousPageUrl() }}">Prev</a>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Page Input + Total --}} -->
+                                        <li class="page-item d-flex align-items-center" style="margin: 0 2px;">
+                                            <form action="" method="GET" class="d-flex align-items-center"
+                                                style="margin:0; padding:0;">
+                                                <input type="number" name="page" value="{{ $jobEnquiries->currentPage() }}" min="1"
+                                                    max="{{ $jobEnquiries->lastPage() }}" readonly class="form-control">
+                                                <input type="text" value="/ {{ $jobEnquiries->lastPage() }}" readonly
+                                                    class="form-control">
+                                            </form>
+                                        </li>
+                                        &nbsp;
+                                        <!-- {{-- Next Button --}} -->
+                                        <li class="page-item {{ !$jobEnquiries->hasMorePages() ? 'disabled' : '' }}">
+                                            <a class="page-link btn btn-primary" href="{{ $jobEnquiries->nextPageUrl() }}">Next</a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -72,25 +101,76 @@
         </div>
     </div>
 
+    <!-- View CV Modal -->
+    @foreach($jobEnquiries as $jobEnquiry)
+        <div class="modal fade" id="viewCVModal{{ $jobEnquiry->id }}" tabindex="-1" aria-labelledby="viewCVModalLabel{{ $jobEnquiry->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewCVModalLabel{{ $jobEnquiry->id }}">CV - {{ $jobEnquiry->job_title }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <p><strong>Applicant Details:</strong></p>
+                            <ul>
+                                <li><strong>Job Title:</strong> {{ $jobEnquiry->job_title }}</li>
+                                <li><strong>Qualification:</strong> {{ $jobEnquiry->qualification }}</li>
+                                <li><strong>HS Division:</strong> {{ ucfirst($jobEnquiry->hs_division) }}</li>
+                                <li><strong>10th Percentage:</strong> {{ $jobEnquiry->tenth_percentage }}%</li>
+                                <li><strong>HS Percentage:</strong> {{ $jobEnquiry->hs_percentage }}%</li>
+                                <li><strong>Phone:</strong> {{ $jobEnquiry->phone }}</li>
+                                <li><strong>Address:</strong> {{ $jobEnquiry->address }}</li>
+                            </ul>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <p><strong>CV Document:</strong></p>
+                            @if($jobEnquiry->cv)
+                                <iframe src="{{ asset('storage/' . $jobEnquiry->cv) }}" width="100%" height="600px" style="border: 1px solid #ccc;"></iframe>
+                                <div class="mt-3">
+                                    <a href="{{ asset('storage/' . $jobEnquiry->cv) }}" target="_blank" class="btn btn-primary">
+                                        <i class='bx bx-download'></i> Download CV
+                                    </a>
+                                </div>
+                            @else
+                                <p class="text-danger">No CV uploaded</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- End View CV Modal -->
+
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteEnquiryModal" tabindex="-1" aria-labelledby="deleteEnquiryModalLabel" aria-hidden="true"> 
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteEnquiryModalLabel">Delete Enquiry</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this enquiry?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+    @foreach($jobEnquiries as $jobEnquiry)
+        <div class="modal fade" id="deleteEnquiryModal{{ $jobEnquiry->id }}" tabindex="-1" aria-labelledby="deleteEnquiryModalLabel{{ $jobEnquiry->id }}" aria-hidden="true"> 
+            <div class="modal-dialog">
+                <form class="modal-content" action="{{ route('admin.job-enquiries.destroy', $jobEnquiry->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteEnquiryModalLabel{{ $jobEnquiry->id }}">Delete Enquiry</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete the job enquiry for <strong>{{ $jobEnquiry->job_title }}</strong>?</p>
+                        <p class="text-muted">Applicant: {{ $jobEnquiry->phone }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endforeach
     <!-- End Delete Modal -->
 
 

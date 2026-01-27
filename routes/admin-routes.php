@@ -90,7 +90,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::delete('/enquiry/delete/{id}', [AdminController::class, 'enquiryDelete'])->name('enquiry.delete');
     // Enquiry ==================================================================>
 
-
+    // Job Enquiry ===================================================================>
     Route::get('/job-enquiry', [AdminController::class, 'jobEnquiry'])->name('job-enquiry');
+    Route::delete('/job-enquiries/delete/{id}', [AdminController::class, 'jobEnquiryDelete'])->name('job-enquiries.destroy');
+    // Job Enquiry ===================================================================>
 
 });

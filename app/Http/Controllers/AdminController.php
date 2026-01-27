@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Enquiry;
 use App\Models\Fact;
 use App\Models\FAQ;
+use App\Models\JobEnquiry;
 use App\Models\Mission;
 use App\Models\Project;
 use App\Models\Service;
@@ -1057,8 +1058,30 @@ class AdminController extends Controller
 
     public function jobEnquiry()
     {
-        return view('admin.job-enquiry');
+        $jobEnquiries = JobEnquiry::orderBy('id', 'desc')->paginate(10);
+        return view('admin.job-enquiry', compact('jobEnquiries'));
     }
 
+    // enquiry's cv view in uploaded pdf
+
+    public function jobEnquiryDelete($id)
+    {
+        try {
+            $jobEnquiry = JobEnquiry::findOrFail($id);
+
+            // Delete CV file if exists
+            if ($jobEnquiry->cv && file_exists(public_path('storage/' . $jobEnquiry->cv))) {
+                unlink(public_path('storage/' . $jobEnquiry->cv));
+            }
+
+            $jobEnquiry->delete();
+
+            return redirect()->route('admin.job-enquiry')
+                ->with('success', 'Job Enquiry deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.job-enquiry')
+                ->with('error', 'Failed to delete job enquiry. Please try again.');
+        }
+    }
 
 }

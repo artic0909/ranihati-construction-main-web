@@ -19,6 +19,8 @@ Route::get('/careers', function () {
     return view('frontend.careers');
 })->name('careers');
 
+Route::post('/careers', [FrontendController::class, 'storeJobEnquiry'])->name('careers.store');
+
 Route::get('/blogs', function () {
     return view('frontend.blogs');
 })->name('blogs');
