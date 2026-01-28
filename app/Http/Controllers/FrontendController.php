@@ -38,6 +38,7 @@ class FrontendController extends Controller
         return view('frontend.home', compact('carousels', 'works', 'projects', 'fact', 'about', 'clients', 'faqsFirstEight', 'faqsLastEight', 'testimonials', 'blogs'));
     }
 
+    // Services
     public function service()
     {
         $services = Service::get();
@@ -45,40 +46,39 @@ class FrontendController extends Controller
         return view('frontend.service', compact('services', 'projects'));
     }
 
+    // Mission
     public function mission()
     {
         $missions = Mission::get();
         return view('frontend.mission', compact('missions'));
     }
 
-    public function storeEnquiry(Request $request)
+    // Career
+    public function career()
     {
-        try {
-            $enquiry = new Enquiry();
-            $enquiry->name = $request->name;
-            $enquiry->email = $request->email;
-            $enquiry->subject = $request->subject;
-            $enquiry->message = $request->message;
-            $enquiry->save();
-
-            // Send email to admin
-            Mail::send('emails.enquiry-mail-send', ['enquiry' => $enquiry], function ($message) use ($enquiry) {
-                $message->to('ranihati.construction@rconpl.in')
-                    ->subject('New Contact Enquiry - ' . $enquiry->subject);
-            });
-
-            // Send acknowledgment email to user
-            Mail::send('emails.enquiry-mail-received', ['enquiry' => $enquiry], function ($message) use ($enquiry) {
-                $message->to($enquiry->email)
-                    ->subject('Thank You for Contacting Ranihati Construction');
-            });
-
-            return redirect()->back()->with('success', 'Enquiry submitted successfully!');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Enquiry submitted failed! Please try again later.');
-        }
+        $about = About::get()->first();
+        return view('frontend.careers', compact('about'));
     }
 
+    // Blogs
+    public function blogs()
+    {
+        $blogs = Blog::orderBy('id', 'desc')->paginate(6);
+        return view('frontend.blogs', compact('blogs'));
+    }
+
+    public function blogDetails($slug)
+    {
+        $blog = Blog::where('slug', $slug)->firstOrFail();
+        $recentBlogs = Blog::where('id', '!=', $blog->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('frontend.blog-details', compact('blog', 'recentBlogs'));
+    }
+
+    // Store Job Enquiry
     public function storeJobEnquiry(Request $request)
     {
         try {
@@ -156,21 +156,36 @@ class FrontendController extends Controller
         }
     }
 
-    // Blogs
-    public function blogs()
+    // Store Enquiry
+    public function storeEnquiry(Request $request)
     {
-        $blogs = Blog::orderBy('created_at', 'desc')->paginate(12);
-        return view('frontend.blogs', compact('blogs'));
+        try {
+            $enquiry = new Enquiry();
+            $enquiry->name = $request->name;
+            $enquiry->email = $request->email;
+            $enquiry->subject = $request->subject;
+            $enquiry->message = $request->message;
+            $enquiry->save();
+
+            // Send email to admin
+            Mail::send('emails.enquiry-mail-send', ['enquiry' => $enquiry], function ($message) use ($enquiry) {
+                $message->to('ranihati.construction@rconpl.in')
+                    ->subject('New Contact Enquiry - ' . $enquiry->subject);
+            });
+
+            // Send acknowledgment email to user
+            Mail::send('emails.enquiry-mail-received', ['enquiry' => $enquiry], function ($message) use ($enquiry) {
+                $message->to($enquiry->email)
+                    ->subject('Thank You for Contacting Ranihati Construction');
+            });
+
+            return redirect()->back()->with('success', 'Enquiry submitted successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Enquiry submitted failed! Please try again later.');
+        }
     }
 
-    public function blogDetails($slug)
-    {
-        $blog = Blog::where('slug', $slug)->firstOrFail();
-        $recentBlogs = Blog::where('id', '!=', $blog->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
 
-        return view('frontend.blog-details', compact('blog', 'recentBlogs'));
-    }
+
+
 }

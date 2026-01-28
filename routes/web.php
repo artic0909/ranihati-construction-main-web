@@ -9,17 +9,16 @@ Route::get('/', [FrontendController::class, 'index'])->name('home');
 // Services
 Route::get('/services', [FrontendController::class, 'service'])->name('services');
 
-
-
-
-
+// Mission
 Route::get('/mission', [FrontendController::class, 'mission'])->name('mission');
 
-Route::get('/careers', function () {
-    return view('frontend.careers');
-})->name('careers');
-
+// Career
+Route::get('/careers', [FrontendController::class, 'career'])->name('careers');
 Route::post('/careers', [FrontendController::class, 'storeJobEnquiry'])->name('careers.store');
+
+
+
+
 
 Route::get('/blogs', [FrontendController::class, 'blogs'])->name('blogs');
 
