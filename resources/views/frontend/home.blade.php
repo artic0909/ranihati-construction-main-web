@@ -368,7 +368,7 @@
                             </a>
                             <div class="blog-title">
                                 <h3>{{ $blog->title }}</h3>
-                                <a class="btn" href="">+</a>
+                                <a class="btn" href="{{ route('blog.details', $blog->slug) }}">+</a>
                             </div>
                             <div class="blog-meta">
                                 <p>By<a href="{{ route('blog.details', $blog->slug) }}">Admin</a></p>
