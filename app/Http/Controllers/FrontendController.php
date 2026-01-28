@@ -61,21 +61,42 @@ class FrontendController extends Controller
     }
 
     // Blogs
-    public function blogs()
+    public function blogs(Request $request)
     {
-        $blogs = Blog::orderBy('id', 'desc')->paginate(6);
-        return view('frontend.blogs', compact('blogs'));
+        $category = $request->get('category');
+
+        $query = Blog::orderBy('id', 'desc');
+
+        if ($category) {
+            $query->where('category', $category);
+        }
+
+        $blogs = $query->paginate(6);
+
+        // Get all unique categories for filter dropdown
+        $categories = Blog::select('category')->distinct()->pluck('category');
+
+        return view('frontend.blogs', compact('blogs', 'categories', 'category'));
     }
 
     public function blogDetails($slug)
     {
         $blog = Blog::where('slug', $slug)->firstOrFail();
+
+        // Get related blogs from the same category
+        $relatedBlogs = Blog::where('category', $blog->category)
+            ->where('id', '!=', $blog->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(4)
+            ->get();
+
+        // Get recent blogs for sidebar
         $recentBlogs = Blog::where('id', '!=', $blog->id)
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
 
-        return view('frontend.blog-details', compact('blog', 'recentBlogs'));
+        return view('frontend.blog-details', compact('blog', 'relatedBlogs', 'recentBlogs'));
     }
 
     // Store Job Enquiry

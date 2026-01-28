@@ -522,3 +522,79 @@
 
 
 @endsection
+
+@push('styles')
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+@endpush
+
+@push('scripts')
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize Summernote for Add Blog Modal
+            $('#blogDescription').summernote({
+                height: 300,
+                placeholder: 'Write your blog content here...',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+                callbacks: {
+                    onImageUpload: function (files) {
+                        // Handle image upload if needed
+                        for (let i = 0; i < files.length; i++) {
+                            uploadImage(files[i], $(this));
+                        }
+                    }
+                }
+            });
+
+            // Initialize Summernote for Update Blog Modals
+            @foreach($blogs as $blog)
+                $('#updateBlogModal{{ $blog->id }}').on('shown.bs.modal', function () {
+                    $(this).find('textarea[name="description"]').summernote({
+                        height: 300,
+                        placeholder: 'Write your blog content here...',
+                        toolbar: [
+                            ['style', ['style']],
+                            ['font', ['bold', 'italic', 'underline', 'clear']],
+                            ['fontname', ['fontname']],
+                            ['fontsize', ['fontsize']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['height', ['height']],
+                            ['table', ['table']],
+                            ['insert', ['link', 'picture', 'video']],
+                            ['view', ['fullscreen', 'codeview', 'help']]
+                        ]
+                    });
+                });
+
+                // Destroy Summernote when modal is hidden to prevent conflicts
+                $('#updateBlogModal{{ $blog->id }}').on('hidden.bs.modal', function () {
+                    $(this).find('textarea[name="description"]').summernote('destroy');
+                });
+            @endforeach
+
+            // Image upload function (optional - for base64 encoding)
+            function uploadImage(file, editor) {
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                    editor.summernote('insertImage', reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+@endpush
