@@ -25,81 +25,23 @@
             <h2>Mission Statement & Vision Statement</h2>
         </div>
         <div class="row">
-            <!-- Mission -->
+            @foreach($missions as $mission)
             <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="mission-vision-item">
                     <div class="mv-content">
                         <div class="mission-vision-img">
-                            <img src="img/m1.webp" alt="Mission">
+                            <img src="{{ asset('storage/' . $mission->image) }}" alt="Mission">
                         </div>
                         <div class="mission-vision-text">
-                            <h3>MISSION</h3>
+                            <h3>{{ $mission->title }}</h3>
                             <p>
-                                We feel empowered to speak up and speak our minds. Candid truthfulness
-                                allows us all to feel valued, included and heard. With all honest thoughts
-                                on the table, we can move projects forward together.
+                                {{ $mission->description }}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Vision -->
-            <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-                <div class="mission-vision-item">
-                    <div class="mv-content">
-                        <div class="mission-vision-img">
-                            <img src="img/m2.webp" alt="Vision">
-                        </div>
-                        <div class="mission-vision-text">
-                            <h3>VISION</h3>
-                            <p>
-                                We feel empowered to speak up and speak our minds. Candid truthfulness
-                                allows us all to feel valued, included and heard. With all honest thoughts
-                                on the table, we can move projects forward together.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Value -->
-            <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="mission-vision-item">
-                    <div class="mv-content">
-                        <div class="mission-vision-img">
-                            <img src="img/m3.webp" alt="Value">
-                        </div>
-                        <div class="mission-vision-text">
-                            <h3>VALUE</h3>
-                            <p>
-                                We feel empowered to speak up and speak our minds. Candid truthfulness
-                                allows us all to feel valued, included and heard. With all honest thoughts
-                                on the table, we can move projects forward together.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dynamic Culture -->
-            <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-                <div class="mission-vision-item">
-                    <div class="mv-content">
-                        <div class="mission-vision-img">
-                            <img src="img/m4.webp" alt="Dynamic Culture">
-                        </div>
-                        <div class="mission-vision-text">
-                            <h3>DYNAMIC CULTURE</h3>
-                            <p>
-                                We feel empowered to speak up and speak our minds. Candid truthfulness
-                                allows us all to feel valued, included and heard. With all honest thoughts
-                                on the table, we can move projects forward together.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>
