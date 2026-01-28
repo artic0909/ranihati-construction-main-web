@@ -97,7 +97,13 @@ class FrontendController extends Controller
             ->limit(5)
             ->get();
 
-        return view('frontend.blog-details', compact('blog', 'relatedBlogs', 'recentBlogs'));
+        // Get categories with blog counts
+        $categories = Blog::select('category', \DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->orderBy('count', 'desc')
+            ->get();
+
+        return view('frontend.blog-details', compact('blog', 'relatedBlogs', 'recentBlogs', 'categories'));
     }
 
     // Store Job Enquiry

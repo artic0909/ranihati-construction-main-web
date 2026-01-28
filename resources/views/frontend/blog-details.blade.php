@@ -136,13 +136,14 @@
                             <h2 class="widget-title">Categories</h2>
                             <div class="category-widget">
                                 <ul>
-                                    <li><a href="">National</a><span>(98)</span></li>
-                                    <li><a href="">International</a><span>(87)</span></li>
-                                    <li><a href="">Economics</a><span>(76)</span></li>
-                                    <li><a href="">Politics</a><span>(65)</span></li>
-                                    <li><a href="">Lifestyle</a><span>(54)</span></li>
-                                    <li><a href="">Technology</a><span>(43)</span></li>
-                                    <li><a href="">Trades</a><span>(32)</span></li>
+                                    @foreach($categories as $category)
+                                        <li>
+                                            <a href="{{ route('blogs', ['search' => $category->category]) }}">
+                                                {{ ucfirst($category->category) }}
+                                            </a>
+                                            <span>({{ $category->count }})</span>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
