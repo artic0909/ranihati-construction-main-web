@@ -44,7 +44,7 @@
 
                     <div class="single-bio wow fadeInUp">
                         <div class="single-bio-img">
-                            <img src="{{ asset('img/user.jpg') }}" alt="{{ $blog->author_name }}" />
+                            <img src="{{ asset('storage/' . $blog->author_image) }}" alt="{{ $blog->author_name }}" />
                         </div>
                         <div class="single-bio-text">
                             <h3>{{ $blog->author_name }}</h3>

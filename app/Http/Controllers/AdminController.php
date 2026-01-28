@@ -937,10 +937,16 @@ class AdminController extends Controller
                 'tag' => 'required|string|max:255',
                 'description' => 'required|string',
                 'author_name' => 'required|string|max:255',
+                'author_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                 'about_author' => 'required|string',
             ]);
 
             $imagePath = $request->file('image')->store('blogs', 'public');
+
+            $authorImagePath = null;
+            if ($request->hasFile('author_image')) {
+                $authorImagePath = $request->file('author_image')->store('blogs/authors', 'public');
+            }
 
             Blog::create([
                 'image' => $imagePath,
@@ -949,6 +955,7 @@ class AdminController extends Controller
                 'tag' => $validated['tag'],
                 'description' => $validated['description'],
                 'author_name' => $validated['author_name'],
+                'author_image' => $authorImagePath,
                 'about_author' => $validated['about_author'],
             ]);
 
@@ -972,6 +979,7 @@ class AdminController extends Controller
                 'tag' => 'required|string|max:255',
                 'description' => 'required|string',
                 'author_name' => 'required|string|max:255',
+                'author_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                 'about_author' => 'required|string',
             ]);
 
@@ -982,6 +990,15 @@ class AdminController extends Controller
 
                 $imagePath = $request->file('image')->store('blogs', 'public');
                 $blog->image = $imagePath;
+            }
+
+            if ($request->hasFile('author_image')) {
+                if ($blog->author_image && file_exists(public_path('storage/' . $blog->author_image))) {
+                    unlink(public_path('storage/' . $blog->author_image));
+                }
+
+                $authorImagePath = $request->file('author_image')->store('blogs/authors', 'public');
+                $blog->author_image = $authorImagePath;
             }
 
             $blog->title = $validated['title'];

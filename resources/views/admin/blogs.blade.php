@@ -216,6 +216,11 @@
                         <input type="text" class="form-control" id="blogAuthorName" name="author_name">
                     </div>
                     <div class="mb-3">
+                        <label for="blogAuthorImage" class="form-label">Author Image</label>
+                        <input type="file" class="form-control" id="blogAuthorImage" name="author_image" accept="image/*">
+                        <small class="text-muted">Upload author profile image (JPEG, PNG, JPG, GIF, WEBP - Max: 2MB)</small>
+                    </div>
+                    <div class="mb-3">
                         <label for="blogAboutAuthor" class="form-label">About Author</label>
                         <textarea class="form-control" id="blogAboutAuthor" rows="3" name="about_author"></textarea>
                     </div>
@@ -411,6 +416,18 @@
                             <label for="blogAuthorName" class="form-label">Author Name</label>
                             <input type="text" class="form-control" id="blogAuthorName" name="author_name"
                                 value="{{ $blog->author_name }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="blogAuthorImage" class="form-label">Author Image (Optional)</label>
+                            <input type="file" class="form-control" id="blogAuthorImage" name="author_image" accept="image/*">
+                            <small class="text-muted">Upload author profile image (JPEG, PNG, JPG, GIF, WEBP - Max: 2MB)</small>
+                            @if($blog->author_image)
+                                <div class="mt-2">
+                                    <img src="{{ asset('storage/' . $blog->author_image) }}" alt="Current Author Image"
+                                        style="max-width: 100px; max-height: 100px; object-fit: cover; border-radius: 50%;">
+                                    <p class="text-muted small">Current author image</p>
+                                </div>
+                            @endif
                         </div>
                         <div class="mb-3">
                             <label for="blogAboutAuthor" class="form-label">About Author</label>

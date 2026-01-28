@@ -15,6 +15,7 @@ class Blog extends Model
         'tag',
         'description',
         'author_name',
+        'author_image',
         'about_author',
     ];
 
