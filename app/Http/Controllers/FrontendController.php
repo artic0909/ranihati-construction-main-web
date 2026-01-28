@@ -60,53 +60,6 @@ class FrontendController extends Controller
         return view('frontend.careers', compact('about'));
     }
 
-    // Blogs
-    public function blogs(Request $request)
-    {
-        $search = $request->get('search');
-
-        $query = Blog::orderBy('id', 'desc');
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'LIKE', "%{$search}%")
-                    ->orWhere('category', 'LIKE', "%{$search}%")
-                    ->orWhere('tag', 'LIKE', "%{$search}%");
-            });
-        }
-
-        $blogs = $query->paginate(6);
-
-        return view('frontend.blogs', compact('blogs'));
-    }
-
-    public function blogDetails($slug)
-    {
-        $blog = Blog::where('slug', $slug)->firstOrFail();
-
-        // Get related blogs from the same category
-        $relatedBlogs = Blog::where('category', $blog->category)
-            ->where('id', '!=', $blog->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(4)
-            ->get();
-
-        // Get recent blogs for sidebar
-        $recentBlogs = Blog::where('id', '!=', $blog->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
-
-        // Get categories with blog counts
-        $categories = Blog::select('category', \DB::raw('count(*) as count'))
-            ->groupBy('category')
-            ->orderBy('count', 'desc')
-            ->get();
-
-        return view('frontend.blog-details', compact('blog', 'relatedBlogs', 'recentBlogs', 'categories'));
-    }
-
-    // Store Job Enquiry
     public function storeJobEnquiry(Request $request)
     {
         try {
@@ -184,7 +137,62 @@ class FrontendController extends Controller
         }
     }
 
-    // Store Enquiry
+    // Blogs
+    public function blogs(Request $request)
+    {
+        $search = $request->get('search');
+
+        $query = Blog::orderBy('id', 'desc');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('category', 'LIKE', "%{$search}%")
+                    ->orWhere('tag', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $blogs = $query->paginate(6);
+
+        return view('frontend.blogs', compact('blogs'));
+    }
+
+    public function blogDetails($slug)
+    {
+        $blog = Blog::where('slug', $slug)->firstOrFail();
+
+        // Get related blogs from the same category
+        $relatedBlogs = Blog::where('category', $blog->category)
+            ->where('id', '!=', $blog->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(4)
+            ->get();
+
+        // Get recent blogs for sidebar
+        $recentBlogs = Blog::where('id', '!=', $blog->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Get categories with blog counts
+        $categories = Blog::select('category', \DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->orderBy('count', 'desc')
+            ->get();
+
+        return view('frontend.blog-details', compact('blog', 'relatedBlogs', 'recentBlogs', 'categories'));
+    }
+
+
+
+    // Contact
+    public function contact()
+    {
+        $faqsFirstEight = FAQ::orderBy('id', 'asc')->limit(8)->get();
+        $faqsLastEight = FAQ::orderBy('id', 'asc')->skip(8)->limit(8)->get();
+        return view('frontend.contact', compact('faqsFirstEight', 'faqsLastEight'));
+    }
+
     public function storeEnquiry(Request $request)
     {
         try {

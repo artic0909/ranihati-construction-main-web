@@ -20,13 +20,8 @@ Route::post('/careers', [FrontendController::class, 'storeJobEnquiry'])->name('c
 Route::get('/blogs', [FrontendController::class, 'blogs'])->name('blogs');
 Route::get('/blog/{slug}', [FrontendController::class, 'blogDetails'])->name('blog.details');
 
-
-
-
-
-Route::get('/contact', function () {
-    return view('frontend.contact');
-})->name('contact');
+// Contact
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 Route::post('/enquiry', [FrontendController::class, 'storeEnquiry'])->name('enquiry.store');
 
