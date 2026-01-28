@@ -30,8 +30,8 @@
 
                         <div class="blog-meta" style="margin-bottom: 20px;">
                             <p>
-                                <span class="badge bg-primary">{{ ucfirst($blog->category) }}</span>
-                                <span class="badge bg-info">{{ ucfirst($blog->tag) }}</span>
+                                <span class="badge bg-primary text-white">{{ ucfirst($blog->category) }}</span>
+                                <span class="badge bg-info text-white">{{ ucfirst($blog->tag) }}</span>
                                 <span style="margin-left: 10px;">By <strong>{{ $blog->author_name }}</strong></span>
                                 <span style="margin-left: 10px;">{{ $blog->created_at->format('M d, Y') }}</span>
                             </p>
@@ -85,13 +85,10 @@
                                 <label for="name">Name *</label>
                                 <input type="text" class="form-control" id="name">
                             </div>
+                            
                             <div class="form-group">
                                 <label for="email">Email *</label>
                                 <input type="email" class="form-control" id="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="website">Website</label>
-                                <input type="url" class="form-control" id="website">
                             </div>
 
                             <div class="form-group">
@@ -107,14 +104,6 @@
 
                 <div class="col-lg-4">
                     <div class="sidebar">
-                        <div class="sidebar-widget wow fadeInUp">
-                            <div class="search-widget">
-                                <form>
-                                    <input class="form-control" type="text" placeholder="Search by Tags">
-                                    <button class="btn"><i class="fa fa-search"></i></button>
-                                </form>
-                            </div>
-                        </div>
 
                         <div class="sidebar-widget wow fadeInUp">
                         <h2 class="widget-title">Recent Post</h2>
@@ -135,12 +124,6 @@
                             @endforeach
                         </div>
                     </div>
-
-                        <div class="sidebar-widget wow fadeInUp">
-                            <div class="image-widget">
-                                <a href="#"><img src="img/blog-1.jpg" alt="Image"></a>
-                            </div>
-                        </div>
 
 
                         <div class="sidebar-widget wow fadeInUp">
