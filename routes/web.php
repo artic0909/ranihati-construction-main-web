@@ -6,18 +6,14 @@ use Illuminate\Support\Facades\Route;
 // Index
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 
+// Services
+Route::get('/services', [FrontendController::class, 'service'])->name('services');
 
 
 
 
 
-Route::get('/services', function () {
-    return view('frontend.service');
-})->name('services');
-
-Route::get('/mission', function () {
-    return view('frontend.mission');
-})->name('mission');
+Route::get('/mission', [FrontendController::class, 'mission'])->name('mission');
 
 Route::get('/careers', function () {
     return view('frontend.careers');

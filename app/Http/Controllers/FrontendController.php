@@ -10,7 +10,9 @@ use App\Models\Fact;
 use App\Models\FAQ;
 use App\Models\JobEnquiry;
 use App\Models\Blog;
+use App\Models\Mission;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\Work;
 use Exception;
@@ -36,6 +38,18 @@ class FrontendController extends Controller
         return view('frontend.home', compact('carousels', 'works', 'projects', 'fact', 'about', 'clients', 'faqsFirstEight', 'faqsLastEight', 'testimonials', 'blogs'));
     }
 
+    public function service()
+    {
+        $services = Service::get();
+        $projects = Project::get();
+        return view('frontend.service', compact('services', 'projects'));
+    }
+
+    public function mission()
+    {
+        $missions = Mission::get();
+        return view('frontend.mission', compact('missions'));
+    }
 
     public function storeEnquiry(Request $request)
     {
