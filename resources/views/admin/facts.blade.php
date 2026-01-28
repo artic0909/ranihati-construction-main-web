@@ -48,7 +48,7 @@
                                 <tbody>
                                     @foreach($facts as $fact)
                                         <tr style="text-align: left;">
-                                            <td>{{ $fact->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $fact->no_of_experts }}</td>
                                             <td>{{ $fact->no_of_clients }}</td>
                                             <td>{{ $fact->no_of_completed_projects }}</td>

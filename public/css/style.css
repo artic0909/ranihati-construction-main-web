@@ -9,10 +9,10 @@ body {
 }
 
 h1,
-h2, 
-h3, 
+h2,
+h3,
 h4,
-h5, 
+h5,
 h6 {
     color: #030f27;
 }
@@ -59,9 +59,12 @@ a:focus {
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-10px);
     }
@@ -223,19 +226,19 @@ a:focus {
     .nav-bar {
         padding: 0 75px;
     }
-    
+
     .nav-bar.nav-sticky {
         padding: 0;
     }
-    
+
     .nav-bar .navbar {
         padding: 20px;
     }
-    
+
     .nav-bar .navbar-brand {
         display: none;
     }
-    
+
     .nav-bar a.nav-link {
         padding: 8px 15px;
         font-size: 15px;
@@ -247,15 +250,15 @@ a:focus {
     .nav-bar .navbar {
         padding: 15px;
     }
-    
+
     .nav-bar a.nav-link {
         padding: 5px;
     }
-    
+
     .nav-bar .dropdown-menu {
         box-shadow: none;
     }
-    
+
     .nav-bar .btn {
         display: none;
     }
@@ -349,11 +352,11 @@ a:focus {
         font-size: 40px;
         font-weight: 700;
     }
-    
+
     .carousel .carousel-caption p {
         font-size: 20px;
     }
-    
+
     .carousel .carousel-caption .btn {
         padding: 12px 30px;
         font-size: 18px;
@@ -367,11 +370,11 @@ a:focus {
         font-size: 30px;
         font-weight: 500;
     }
-    
+
     .carousel .carousel-caption p {
         font-size: 16px;
     }
-    
+
     .carousel .carousel-caption .btn {
         padding: 10px 25px;
         font-size: 16px;
@@ -394,7 +397,8 @@ a:focus {
     position: relative;
     width: 100%;
     overflow: hidden;
-    padding-bottom: 50px; /* Space for indicators below */
+    padding-bottom: 50px;
+    /* Space for indicators below */
 }
 
 /* inner flex */
@@ -402,11 +406,15 @@ a:focus {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
     cursor: grab;
-    gap: 10px; /* Reduced gap between images */
-    scroll-snap-type: x mandatory; /* Snap to slides */
+    gap: 10px;
+    /* Reduced gap between images */
+    scroll-snap-type: x mandatory;
+    /* Snap to slides */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -421,7 +429,8 @@ a:focus {
 
 /* show 4 items */
 .work-carousel-item {
-    flex: 0 0 calc((100% - 30px) / 4); /* 4 items with 10px gaps (3 gaps = 30px) */
+    flex: 0 0 calc((100% - 30px) / 4);
+    /* 4 items with 10px gaps (3 gaps = 30px) */
     max-width: calc((100% - 30px) / 4);
     scroll-snap-align: start;
 }
@@ -433,18 +442,21 @@ a:focus {
     object-fit: contain;
     user-select: none;
     pointer-events: none;
-    border-radius: 5px; /* Optional: adds rounded corners */
+    border-radius: 5px;
+    /* Optional: adds rounded corners */
 }
 
 /* Carousel Indicators */
 .carousel-indicators {
     display: flex;
-    justify-content: flex-end; /* Align to right */
+    justify-content: flex-end;
+    /* Align to right */
     align-items: center;
     gap: 8px;
     margin-top: 20px;
     width: 100%;
-    padding-right: 0; /* Adjust if needed */
+    padding-right: 0;
+    /* Adjust if needed */
 }
 
 .indicator {
@@ -469,30 +481,34 @@ a:focus {
 /* responsive */
 @media (max-width: 991px) {
     .work-carousel-item {
-        flex: 0 0 calc((100% - 20px) / 3); /* 3 items with 10px gaps (2 gaps = 20px) */
+        flex: 0 0 calc((100% - 20px) / 3);
+        /* 3 items with 10px gaps (2 gaps = 20px) */
         max-width: calc((100% - 20px) / 3);
     }
 }
 
 @media (max-width: 767px) {
     .work-carousel-item {
-        flex: 0 0 calc((100% - 10px) / 2); /* 2 items with 10px gap (1 gap = 10px) */
+        flex: 0 0 calc((100% - 10px) / 2);
+        /* 2 items with 10px gap (1 gap = 10px) */
         max-width: calc((100% - 10px) / 2);
     }
 }
 
 @media (max-width: 575px) {
     .work-carousel-item {
-        flex: 0 0 100%; /* 1 item */
+        flex: 0 0 100%;
+        /* 1 item */
         max-width: 100%;
     }
-    
+
     .work-carousel-inner {
         gap: 10px;
     }
-    
+
     .carousel-indicators {
-        justify-content: center; /* Center on mobile */
+        justify-content: center;
+        /* Center on mobile */
     }
 }
 
@@ -546,7 +562,8 @@ a:focus {
 .service-img img {
     width: 100%;
     height: auto;
-    aspect-ratio: 3 / 4; /* Changed from 4/3 to 3/4 for taller images */
+    aspect-ratio: 3 / 4;
+    /* Changed from 4/3 to 3/4 for taller images */
     object-fit: cover;
     user-select: none;
     pointer-events: none;
@@ -565,7 +582,7 @@ a:focus {
         flex: 0 0 100%;
         max-width: 100%;
     }
-    
+
     .service-carousel-inner {
         gap: 15px;
     }
@@ -614,13 +631,15 @@ a:focus {
     position: relative;
     overflow: hidden;
     border-radius: 5px;
-    border: 1px solid #ff6600b4; /* Orange border */
+    border: 1px solid #ff6600b4;
+    /* Orange border */
     transition: transform 0.3s, border-color 0.3s;
 }
 
 .client-carousel-item .team-item:hover {
     transform: scale(1.05);
-    border-color: #FF8C00; /* Lighter orange on hover */
+    border-color: #FF8C00;
+    /* Lighter orange on hover */
 }
 
 .client-carousel-item .team-img img {
@@ -654,7 +673,7 @@ a:focus {
         flex: 0 0 calc((100% - 20px) / 2);
         max-width: calc((100% - 20px) / 2);
     }
-    
+
     .client-carousel-inner {
         gap: 10px;
     }
@@ -672,7 +691,7 @@ a:focus {
     margin-right: -15px;
 }
 
-.mission-vision .row > [class*="col-"] {
+.mission-vision .row>[class*="col-"] {
     padding-left: 15px;
     padding-right: 15px;
     margin-bottom: 30px;
@@ -747,28 +766,28 @@ a:focus {
 
 /* Tablet View */
 @media (max-width: 991px) {
-    .mission-vision .row > [class*="col-"] {
+    .mission-vision .row>[class*="col-"] {
         margin-bottom: 25px;
     }
-    
+
     .mv-content {
         min-height: 280px;
     }
-    
+
     .mission-vision-img {
         flex: 0 0 45%;
         max-width: 45%;
     }
-    
+
     .mission-vision-text {
         padding: 25px 20px;
     }
-    
+
     .mission-vision-text h3 {
         font-size: 24px;
         margin-bottom: 18px;
     }
-    
+
     .mission-vision-text p {
         font-size: 14px;
         line-height: 1.7;
@@ -782,26 +801,26 @@ a:focus {
         min-height: auto;
         width: 100%;
     }
-    
+
     .mission-vision-img {
         flex: 0 0 auto;
         max-width: 100%;
         width: 100%;
         height: 250px;
     }
-    
+
     .mission-vision-text {
         flex: 0 0 auto;
         width: 100%;
         padding: 30px 25px;
         min-height: 150px;
     }
-    
+
     .mission-vision-text h3 {
         font-size: 22px;
         margin-bottom: 15px;
     }
-    
+
     .mission-vision-text p {
         font-size: 14px;
         line-height: 1.8;
@@ -813,31 +832,31 @@ a:focus {
     .mission-vision {
         padding: 45px 0;
     }
-    
-    .mission-vision .row > [class*="col-"] {
+
+    .mission-vision .row>[class*="col-"] {
         margin-bottom: 20px;
         padding-left: 10px;
         padding-right: 10px;
     }
-    
+
     .mission-vision-item {
         border-width: 2px;
     }
-    
+
     .mission-vision-img {
         height: 220px;
     }
-    
+
     .mission-vision-text {
         padding: 25px 20px;
         min-height: 140px;
     }
-    
+
     .mission-vision-text h3 {
         font-size: 20px;
         margin-bottom: 12px;
     }
-    
+
     .mission-vision-text p {
         font-size: 13px;
         line-height: 1.7;
@@ -849,16 +868,16 @@ a:focus {
     .mission-vision-img {
         height: 200px;
     }
-    
+
     .mission-vision-text {
         padding: 20px 15px;
         min-height: 130px;
     }
-    
+
     .mission-vision-text h3 {
         font-size: 18px;
     }
-    
+
     .mission-vision-text p {
         font-size: 12px;
     }
@@ -877,6 +896,7 @@ a:focus {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .page-header h2 {
     position: relative;
     color: #ffffff;
@@ -926,11 +946,11 @@ a:focus {
     .page-header {
         padding: 60px 0;
     }
-    
+
     .page-header h2 {
         font-size: 45px;
     }
-    
+
     .page-header a {
         font-size: 20px;
     }
@@ -940,11 +960,11 @@ a:focus {
     .page-header {
         padding: 45px 0;
     }
-    
+
     .page-header h2 {
         font-size: 35px;
     }
-    
+
     .page-header a {
         font-size: 18px;
     }
@@ -992,7 +1012,7 @@ a:focus {
 .feature .col-md-12 {
     background: #030f27;
 }
-    
+
 .feature .col-md-12:nth-child(2n) {
     color: #030f27;
     background: #EC7F23;
@@ -1377,14 +1397,15 @@ a:focus {
 }
 
 @keyframes pulse-border {
-  0% {
-    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
-    opacity: 0;
-  }
+    0% {
+        transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
+        opacity: 0;
+    }
 }
 
 #videoModal .modal-dialog {
@@ -1547,12 +1568,12 @@ a:focus {
     .faqs .row::after {
         display: none;
     }
-    
+
     .faqs #accordion-1,
     .faqs #accordion-2 {
         padding: 0;
     }
-    
+
     .faqs #accordion-2 {
         padding-top: 15px;
     }
@@ -2205,11 +2226,11 @@ a:focus {
 }
 
 .sidebar .category-widget ul li {
-    margin: 0 0 12px 22px; 
+    margin: 0 0 12px 22px;
 }
 
 .sidebar .category-widget ul li:last-child {
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .sidebar .category-widget ul li a {
@@ -2621,23 +2642,24 @@ a:focus {
         padding: 15px;
         margin-bottom: 15px;
     }
-    
+
     .contact .contact-text h2 {
         font-size: 16px;
     }
-    
+
     .contact .contact-text p {
         font-size: 14px;
     }
-    
+
     .contact .contact-form .control-group {
         margin-bottom: 12px;
     }
-    
+
     #dropArea {
         padding: 20px;
     }
 }
+
 /*******************************/
 /****** Brand CSS ******/
 /*******************************/
@@ -2649,7 +2671,8 @@ a:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 80px; /* Space between two images */
+    gap: 80px;
+    /* Space between two images */
     flex-wrap: wrap;
     padding: 40px 0;
 }
@@ -2678,7 +2701,7 @@ a:focus {
     .brand-container {
         gap: 40px;
     }
-    
+
     .brand-item {
         max-width: 250px;
     }
@@ -2689,7 +2712,7 @@ a:focus {
         gap: 30px;
         flex-direction: column;
     }
-    
+
     .brand-item {
         max-width: 200px;
     }
@@ -2705,9 +2728,12 @@ a:focus {
 
 /* Floating animation */
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px);
     }
+
     50% {
         transform: translateY(-10px);
     }
@@ -2715,9 +2741,12 @@ a:focus {
 
 /* Blink between orange and white */
 @keyframes blink-orange-white {
-    0%, 100% {
+
+    0%,
+    100% {
         color: #FF6600;
     }
+
     50% {
         color: #FFFFFF;
     }
@@ -2738,7 +2767,8 @@ a:focus {
 .ready-to-work {
     position: relative;
     padding: 100px 0;
-    background: linear-gradient(135deg, #001f3f 0%, #003366 100%); /* Dark blue like footer */
+    background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+    /* Dark blue like footer */
     overflow: hidden;
     margin-top: 0;
 }
@@ -2854,11 +2884,11 @@ a:focus {
     .ready-content h2 {
         font-size: 36px;
     }
-    
+
     .ready-content p {
         font-size: 16px;
     }
-    
+
     .building-svg {
         width: 100%;
         opacity: 0.5;
@@ -2869,16 +2899,16 @@ a:focus {
     .ready-to-work {
         padding: 60px 0;
     }
-    
+
     .ready-content h2 {
         font-size: 28px;
         margin-bottom: 20px;
     }
-    
+
     .ready-buttons {
         flex-direction: column;
     }
-    
+
     .btn-quote,
     .btn-careers {
         width: 100%;
@@ -2890,11 +2920,11 @@ a:focus {
     .ready-content h2 {
         font-size: 24px;
     }
-    
+
     .ready-content p {
         font-size: 14px;
     }
-    
+
     .btn-quote,
     .btn-careers {
         padding: 12px 20px;
@@ -3080,9 +3110,72 @@ a:focus {
 }
 
 @media (max-width: 768px) {
+
     .footer .copyright p,
     .footer .copyright .col-md-6:last-child p {
         margin: 5px 0;
         text-align: center;
+    }
+}
+
+/*******************************/
+/****** Client Carousel CSS ****/
+/*******************************/
+.client-carousel {
+    position: relative;
+    width: 100%;
+    padding: 45px 0 0 0;
+}
+
+.client-carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.client-carousel-item {
+    min-width: 20%;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.client-carousel-item .team-item {
+    text-align: center;
+}
+
+.client-carousel-item .team-img {
+    width: 100%;
+    height: auto;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+}
+
+.client-carousel-item .team-img img {
+    width: 100%;
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+}
+
+@media (max-width: 991px) {
+    .client-carousel-item {
+        min-width: 33.333%;
+    }
+}
+
+@media (max-width: 767px) {
+    .client-carousel-item {
+        min-width: 50%;
+    }
+}
+
+@media (max-width: 575px) {
+    .client-carousel-item {
+        min-width: 100%;
     }
 }

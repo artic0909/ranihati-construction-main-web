@@ -3,9 +3,13 @@
 use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.home');
-})->name('home');
+// Index
+Route::get('/', [FrontendController::class, 'index'])->name('home');
+
+
+
+
+
 
 Route::get('/services', function () {
     return view('frontend.service');
@@ -21,9 +25,7 @@ Route::get('/careers', function () {
 
 Route::post('/careers', [FrontendController::class, 'storeJobEnquiry'])->name('careers.store');
 
-Route::get('/blogs', function () {
-    return view('frontend.blogs');
-})->name('blogs');
+Route::get('/blogs', [FrontendController::class, 'blogs'])->name('blogs');
 
 Route::get('/contact', function () {
     return view('frontend.contact');
@@ -31,12 +33,10 @@ Route::get('/contact', function () {
 
 Route::post('/enquiry', [FrontendController::class, 'storeEnquiry'])->name('enquiry.store');
 
-Route::get('/blog-details', function () {
-    return view('frontend.blog-details');
-})->name('blog-details');
+Route::get('/blog/{slug}', [FrontendController::class, 'blogDetails'])->name('blog.details');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

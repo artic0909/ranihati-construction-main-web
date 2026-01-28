@@ -2,14 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
+use App\Models\Carousel;
+use App\Models\Client;
 use App\Models\Enquiry;
+use App\Models\Fact;
+use App\Models\FAQ;
 use App\Models\JobEnquiry;
+use App\Models\Blog;
+use App\Models\Project;
+use App\Models\Testimonial;
+use App\Models\Work;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
+
+    // Index
+    public function index()
+    {
+        $carousels = Carousel::get();
+        $works = Work::get();
+        $projects = Project::get();
+        $fact = Fact::get()->first();
+        $about = About::get()->first();
+        $clients = Client::get();
+        $faqsFirstEight = FAQ::orderBy('id', 'asc')->limit(8)->get();
+        $faqsLastEight = FAQ::orderBy('id', 'asc')->skip(8)->limit(8)->get();
+        $testimonials = Testimonial::get();
+        return view('frontend.home', compact('carousels', 'works', 'projects', 'fact', 'about', 'clients', 'faqsFirstEight', 'faqsLastEight', 'testimonials'));
+    }
+
+
     public function storeEnquiry(Request $request)
     {
         try {
@@ -113,5 +139,23 @@ class FrontendController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Job Enquiry submitted failed! Please try again later.');
         }
+    }
+
+    // Blogs
+    public function blogs()
+    {
+        $blogs = Blog::orderBy('created_at', 'desc')->paginate(12);
+        return view('frontend.blogs', compact('blogs'));
+    }
+
+    public function blogDetails($slug)
+    {
+        $blog = Blog::where('slug', $slug)->firstOrFail();
+        $recentBlogs = Blog::where('id', '!=', $blog->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('frontend.blog-details', compact('blog', 'recentBlogs'));
     }
 }
