@@ -29,6 +29,8 @@ class FrontendController extends Controller
         try {
             $validated = $request->validate([
                 'job_title' => 'required|string|in:Project Manager,Project Engineer,Site Supervisor,Account Manager(project),Account Manager(Office),Assistant Account,HR(Site),HR(Office)',
+                'name' => 'required|string|max:255|min:2',
+                'email' => 'required|email|max:255',
                 'qualification' => 'required|string|max:255',
                 'hs_division' => 'required|string|in:art,science,commerce',
                 'tenth_percentage' => 'required|numeric|min:0|max:100',
@@ -39,6 +41,12 @@ class FrontendController extends Controller
             ], [
                 'job_title.required' => 'Please select a job post.',
                 'job_title.in' => 'Please select a valid job post.',
+                'name.required' => 'Please enter your full name.',
+                'name.min' => 'Name must be at least 2 characters.',
+                'name.max' => 'Name cannot exceed 255 characters.',
+                'email.required' => 'Please enter your email address.',
+                'email.email' => 'Please enter a valid email address.',
+                'email.max' => 'Email cannot exceed 255 characters.',
                 'qualification.required' => 'Please enter your final qualification.',
                 'hs_division.required' => 'Please select your HS division.',
                 'hs_division.in' => 'Please select a valid HS division (Art, Science, or Commerce).',
@@ -63,6 +71,8 @@ class FrontendController extends Controller
 
             $jobEnquiry = new JobEnquiry();
             $jobEnquiry->job_title = $validated['job_title'];
+            $jobEnquiry->name = $validated['name'];
+            $jobEnquiry->email = $validated['email'];
             $jobEnquiry->qualification = $validated['qualification'];
             $jobEnquiry->hs_division = $validated['hs_division'];
             $jobEnquiry->tenth_percentage = $validated['tenth_percentage'];

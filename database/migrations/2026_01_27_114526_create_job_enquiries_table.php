@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('job_enquiries', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
             $table->string('job_title');
             $table->string('qualification');
             $table->string('hs_division');
             $table->string('tenth_percentage');
             $table->string('hs_percentage');
-            $table->string('phone');
             $table->string('address');
-            $table->string('cv'); // in pdf format
+            $table->string('cv');
             $table->timestamps();
         });
     }
