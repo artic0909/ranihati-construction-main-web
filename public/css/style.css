@@ -3179,3 +3179,12 @@ a:focus {
         min-width: 100%;
     }
 }
+
+/*******************************/
+/****** Blog Image CSS *********/
+/*******************************/
+.blog-item .blog-img img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}

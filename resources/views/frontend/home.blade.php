@@ -324,17 +324,14 @@
     <!-- Testimonial Start -->
     <div class="testimonial wow fadeIn" data-wow-delay="0.1s">
         <div class="container">
-            <div class="row">
+            <div class="row" style="display: none;">
                 <div class="col-12">
                     <div class="testimonial-slider-nav">
-                        <div class="slider-nav"><img src="img/testimonial-1.jpg" alt="Testimonial"></div>
-                        <div class="slider-nav"><img src="img/testimonial-2.jpg" alt="Testimonial"></div>
-                        <div class="slider-nav"><img src="img/testimonial-3.jpg" alt="Testimonial"></div>
-                        <div class="slider-nav"><img src="img/testimonial-4.jpg" alt="Testimonial"></div>
-                        <div class="slider-nav"><img src="img/testimonial-1.jpg" alt="Testimonial"></div>
-                        <div class="slider-nav"><img src="img/testimonial-2.jpg" alt="Testimonial"></div>
-                        <div class="slider-nav"><img src="img/testimonial-3.jpg" alt="Testimonial"></div>
-                        <div class="slider-nav"><img src="img/testimonial-4.jpg" alt="Testimonial"></div>
+                        @foreach ($testimonials as $testimonial)
+                            <div class="slider-nav">
+                                <!-- <img src="{{ asset('storage/' . $testimonial->image) }}" alt="Testimonial"> -->
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -363,69 +360,28 @@
                 <h2>Latest From Our Blog</h2>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="blog-item">
-                        <div class="blog-img">
-                            <img src="img/blog-1.jpg" alt="Image">
-                        </div>
-                        <div class="blog-title">
-                            <h3>Lorem ipsum dolor sit</h3>
-                            <a class="btn" href="">+</a>
-                        </div>
-                        <div class="blog-meta">
-                            <p>By<a href="">Admin</a></p>
-                            <p>In<a href="">Construction</a></p>
-                        </div>
-                        <div class="blog-text">
-                            <p>
-                                Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi. Curabitur facilisis
-                                ornare velit non vulputate. Aliquam metus tortor
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp">
-                    <div class="blog-item">
-                        <div class="blog-img">
-                            <img src="img/blog-2.jpg" alt="Image">
-                        </div>
-                        <div class="blog-title">
-                            <h3>Lorem ipsum dolor sit</h3>
-                            <a class="btn" href="">+</a>
-                        </div>
-                        <div class="blog-meta">
-                            <p>By<a href="">Admin</a></p>
-                            <p>In<a href="">Construction</a></p>
-                        </div>
-                        <div class="blog-text">
-                            <p>
-                                Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi. Curabitur facilisis
-                                ornare velit non vulputate. Aliquam metus tortor
-                            </p>
+                @foreach ($blogs as $blog)
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <img src="{{ asset('storage/' . $blog->image) }}" alt="Image">
+                            </div>
+                            <div class="blog-title">
+                                <h3>{{ $blog->title }}</h3>
+                                <a class="btn" href="">+</a>
+                            </div>
+                            <div class="blog-meta">
+                                <p>By<a href="">Admin</a></p>
+                                <p>In<a href="">Ranihati Const. Pvt. Ltd.</a></p>
+                            </div>
+                            <div class="blog-text">
+                                <p>
+                                    {{ Str::length($blog->about_author) > 100 ? Str::limit($blog->about_author, 100, '...') : $blog->about_author }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="blog-item">
-                        <div class="blog-img">
-                            <img src="img/blog-3.jpg" alt="Image">
-                        </div>
-                        <div class="blog-title">
-                            <h3>Lorem ipsum dolor sit</h3>
-                            <a class="btn" href="">+</a>
-                        </div>
-                        <div class="blog-meta">
-                            <p>By<a href="">Admin</a></p>
-                            <p>In<a href="">Construction</a></p>
-                        </div>
-                        <div class="blog-text">
-                            <p>
-                                Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi. Curabitur facilisis
-                                ornare velit non vulputate. Aliquam metus tortor
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

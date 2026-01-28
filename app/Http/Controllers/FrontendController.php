@@ -32,7 +32,8 @@ class FrontendController extends Controller
         $faqsFirstEight = FAQ::orderBy('id', 'asc')->limit(8)->get();
         $faqsLastEight = FAQ::orderBy('id', 'asc')->skip(8)->limit(8)->get();
         $testimonials = Testimonial::get();
-        return view('frontend.home', compact('carousels', 'works', 'projects', 'fact', 'about', 'clients', 'faqsFirstEight', 'faqsLastEight', 'testimonials'));
+        $blogs = Blog::latest()->take(3)->get();
+        return view('frontend.home', compact('carousels', 'works', 'projects', 'fact', 'about', 'clients', 'faqsFirstEight', 'faqsLastEight', 'testimonials', 'blogs'));
     }
 
 
