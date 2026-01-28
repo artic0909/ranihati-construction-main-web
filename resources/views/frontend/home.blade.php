@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Ranihati Construction Private Limited - RCPL')
+@section('title', 'Ranihati Construction Private Limited | RCPL')
 
 @section('content')
 

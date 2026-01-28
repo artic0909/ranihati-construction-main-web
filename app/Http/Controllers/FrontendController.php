@@ -217,11 +217,14 @@ class FrontendController extends Controller
 
             return redirect()->back()->with('success', 'Enquiry submitted successfully!');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Enquiry submitted failed! Please try again later.');
+            return redirect()->route('contact')
+                ->with('error', 'Failed to send enquiry. Please try again.');
         }
     }
 
-
-
-
+    // Privacy Policy
+    public function privacyPolicy()
+    {
+        return view('frontend.privacy-policy');
+    }
 }

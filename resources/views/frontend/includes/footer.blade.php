@@ -305,15 +305,15 @@
             </div>
             <div class="container footer-menu">
                 <div class="f-menu">
-                    <a href="">Facade work</a>
-                    <a href="">CLADDING Work</a>
-                    <a href="">Canopy</a>
-                    <a href="">Louver</a>
-                    <a href="">False Ceiling</a>
-                    <a href="">Flooring</a>
-                    <a href="">Partition</a>
-                    <a href="">Insulation</a>
-                    <a href="">False Flooring</a>
+                    <a href="{{ route('services') }}">Facade work</a>
+                    <a href="{{ route('services') }}">CLADDING Work</a>
+                    <a href="{{ route('services') }}">Canopy</a>
+                    <a href="{{ route('services') }}">Louver</a>
+                    <a href="{{ route('services') }}">False Ceiling</a>
+                    <a href="{{ route('services') }}">Flooring</a>
+                    <a href="{{ route('services') }}">Partition</a>
+                    <a href="{{ route('services') }}">Insulation</a>
+                    <a href="{{ route('services') }}">False Flooring</a>
                 </div>
             </div>
             <div class="container copyright">
@@ -322,7 +322,7 @@
                         <p>&copy; <a href="#">2026 RCPL</a>, All Right Reserved.</p>
                     </div>
                     <div class="col-md-6">
-                        <p><a href="">Privacy & Policy</a></p>
+                        <p><a href="{{ route('privacy-policy') }}">Privacy & Policy</a></p>
                     </div>
                 </div>
             </div>

@@ -25,6 +25,9 @@ Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 Route::post('/enquiry', [FrontendController::class, 'storeEnquiry'])->name('enquiry.store');
 
+// Privacy Policy
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy-policy');
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
