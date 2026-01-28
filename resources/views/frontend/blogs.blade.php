@@ -25,27 +25,30 @@
                 <h2>Latest From Our Blog</h2>
             </div>
 
-            <!-- Category Filter -->
-            <div class="row mb-4">
+            <!-- Search Bar -->
+            <div class="row mb-5">
                 <div class="col-12">
-                    <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
-                        <a href="{{ route('blogs') }}"
-                            class="btn {{ !request('category') ? 'btn-primary' : 'btn-outline-primary' }}">
-                            All Categories
-                        </a>
-                        @foreach($categories as $cat)
-                            <a href="{{ route('blogs', ['category' => $cat]) }}"
-                                class="btn {{ request('category') == $cat ? 'btn-primary' : 'btn-outline-primary' }}">
-                                {{ ucfirst($cat) }}
-                            </a>
-                        @endforeach
-                    </div>
+                    <form action="{{ route('blogs') }}" method="GET" class="d-flex justify-content-center">
+                        <div class="input-group" style="max-width: 600px;">
+                            <input type="text" 
+                                   name="search" 
+                                   class="form-control"
+                                   placeholder="Search blogs by title, category, or tags..." 
+                                   value="{{ request('search') }}"
+                                   style="border-radius: 25px 0 0 25px; padding: 12px 20px; border: 2px solid #FDBE33; border-right: none; height: 50px;">
+                            <button class="btn" 
+                                    type="submit"
+                                    style="border-radius: 0 25px 25px 0; padding: 12px 30px; background-color: #FDBE33; border: 2px solid #FDBE33; color: #fff; font-weight: 600; height: 50px; display: flex; align-items: center; gap: 5px;">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
 
-                    @if(request('category'))
+                    @if(request('search'))
                         <div class="text-center mt-3">
                             <p class="text-muted">
-                                Showing blogs in category: <strong>{{ ucfirst(request('category')) }}</strong>
-                                <a href="{{ route('blogs') }}" class="text-danger ms-2">(Clear Filter)</a>
+                                Search results for: <strong>"{{ request('search') }}"</strong>
+                                <a href="{{ route('blogs') }}" class="text-danger ms-2">(Clear Search)</a>
                             </p>
                         </div>
                     @endif
@@ -65,13 +68,8 @@
                             </div>
                             <div class="blog-meta">
                                 <p>By<a href="">{{ $blog->author_name }}</a></p>
-                                <p>In<a
-                                        href="{{ route('blogs', ['category' => $blog->category]) }}">{{ ucfirst($blog->category) }}</a>
+                                <p>In<a href="">{{ ucfirst($blog->category) }}</a>
                                 </p>
-                            </div>
-                            <div class="mb-2">
-                                <span class="badge bg-primary">{{ ucfirst($blog->category) }}</span>
-                                <span class="badge bg-info">{{ ucfirst($blog->tag) }}</span>
                             </div>
                             <div class="blog-text">
                                 <p>
@@ -90,12 +88,12 @@
                             <li class="page-item disabled"><span class="page-link">Previous</span></li>
                         @else
                             <li class="page-item"><a class="page-link"
-                                    href="{{ $blogs->appends(['category' => request('category')])->previousPageUrl() }}">Previous</a>
+                                    href="{{ $blogs->appends(['search' => request('search')])->previousPageUrl() }}">Previous</a>
                             </li>
                         @endif
 
                         {{-- Pagination Elements --}}
-                        @foreach ($blogs->appends(['category' => request('category')])->getUrlRange(1, $blogs->lastPage()) as $page => $url)
+                        @foreach ($blogs->appends(['search' => request('search')])->getUrlRange(1, $blogs->lastPage()) as $page => $url)
                             @if ($page == 1 || $page == $blogs->lastPage() || ($page >= $blogs->currentPage() - 1 && $page <= $blogs->currentPage() + 1))
                                 @if ($page == $blogs->currentPage())
                                     <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
@@ -112,7 +110,7 @@
                         {{-- Next Page Link --}}
                         @if ($blogs->hasMorePages())
                             <li class="page-item"><a class="page-link"
-                                    href="{{ $blogs->appends(['category' => request('category')])->nextPageUrl() }}">Next</a>
+                                    href="{{ $blogs->appends(['search' => request('search')])->nextPageUrl() }}">Next</a>
                             </li>
                         @else
                             <li class="page-item disabled"><span class="page-link">Next</span></li>

@@ -63,20 +63,21 @@ class FrontendController extends Controller
     // Blogs
     public function blogs(Request $request)
     {
-        $category = $request->get('category');
+        $search = $request->get('search');
 
         $query = Blog::orderBy('id', 'desc');
 
-        if ($category) {
-            $query->where('category', $category);
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('category', 'LIKE', "%{$search}%")
+                    ->orWhere('tag', 'LIKE', "%{$search}%");
+            });
         }
 
         $blogs = $query->paginate(6);
 
-        // Get all unique categories for filter dropdown
-        $categories = Blog::select('category')->distinct()->pluck('category');
-
-        return view('frontend.blogs', compact('blogs', 'categories', 'category'));
+        return view('frontend.blogs', compact('blogs'));
     }
 
     public function blogDetails($slug)
