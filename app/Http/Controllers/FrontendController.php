@@ -6,6 +6,7 @@ use App\Models\Enquiry;
 use App\Models\JobEnquiry;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
@@ -18,6 +19,19 @@ class FrontendController extends Controller
             $enquiry->subject = $request->subject;
             $enquiry->message = $request->message;
             $enquiry->save();
+
+            // Send email to admin
+            Mail::send('emails.enquiry-mail-send', ['enquiry' => $enquiry], function ($message) use ($enquiry) {
+                $message->to('ranihati.construction@rconpl.in')
+                    ->subject('New Contact Enquiry - ' . $enquiry->subject);
+            });
+
+            // Send acknowledgment email to user
+            Mail::send('emails.enquiry-mail-received', ['enquiry' => $enquiry], function ($message) use ($enquiry) {
+                $message->to($enquiry->email)
+                    ->subject('Thank You for Contacting Ranihati Construction');
+            });
+
             return redirect()->back()->with('success', 'Enquiry submitted successfully!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Enquiry submitted failed! Please try again later.');
@@ -82,6 +96,19 @@ class FrontendController extends Controller
             $jobEnquiry->cv = $validated['cv']->store('job-enquiries', 'public');
 
             $jobEnquiry->save();
+
+            // Send email to HR/Admin
+            Mail::send('emails.job-enquiry-mail-send', ['jobEnquiry' => $jobEnquiry], function ($message) use ($jobEnquiry) {
+                $message->to('ranihati.construction@rconpl.in')
+                    ->subject('New Job Application - ' . $jobEnquiry->job_title);
+            });
+
+            // Send acknowledgment email to applicant
+            Mail::send('emails.job-enquiry-mail-received', ['jobEnquiry' => $jobEnquiry], function ($message) use ($jobEnquiry) {
+                $message->to($jobEnquiry->email)
+                    ->subject('Application Received - ' . $jobEnquiry->job_title . ' - Ranihati Construction');
+            });
+
             return redirect()->back()->with('success', 'Job Enquiry submitted successfully!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Job Enquiry submitted failed! Please try again later.');
