@@ -3,7 +3,7 @@
         <div class="row align-items-center">
             <div class="col-lg-4 col-md-12">
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="{{ route('home') }}">
                         <img src="{{ asset('img/logo.png') }}" alt="Logo">
                     </a>
                 </div>
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <div class="top-bar-item">
+                        <a class="top-bar-item" href="tel:+919874444725">
                             <div class="top-bar-icon">
                                 <i class="flaticon-call"></i>
                             </div>
@@ -30,10 +30,10 @@
                                 <h3>HR Manager</h3>
                                 <p>+91-9874444725</p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-4">
-                        <div class="top-bar-item">
+                        <a class="top-bar-item" href="mailto:ranihati.construction@rconpl.in">
                             <div class="top-bar-icon">
                                 <i class="flaticon-send-mail"></i>
                             </div>
@@ -41,7 +41,7 @@
                                 <h3>Email Us</h3>
                                 <p>ranihati.construction@rconpl.in</p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>

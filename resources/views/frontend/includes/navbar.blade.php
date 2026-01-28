@@ -33,7 +33,7 @@
                                 </div> -->
                 </div>
                 <div class="ml-auto">
-                    <a class="btn" href="#">OUR BROCHURE <i class="fa-solid fa-up-right-from-square"></i></a>
+                    <a class="btn" href="{{ asset('pdf/brochure.pdf') }}" target="_blank">OUR BROCHURE <i class="fa-solid fa-up-right-from-square"></i></a>
                 </div>
             </div>
         </nav>
