@@ -4,7 +4,7 @@
             <div class="col-lg-4 col-md-12">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="img/logo.png" alt="Logo">
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo">
                     </a>
                 </div>
             </div>
