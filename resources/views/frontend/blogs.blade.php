@@ -2,7 +2,23 @@
 
 @section('title', 'Blogs - Ranihati Construction Private Limited')
 
+
+
 @section('content')
+
+    @foreach($blogs as $blog)
+        <meta name="description" content="{{ $blog->description }}">
+        <meta name="keywords"
+            content="{{ $blog->tags }}, {{ $blog->category }}, {{ $blog->title }}, {{ $blog->author_name }}">
+
+        <meta property="og:title" content="{{ $blog->title }}">
+        <meta property="og:description" content="{{ $blog->description }}">
+        <meta property="og:url" content="{{ url('/blog/' . $blog->slug) }}">
+        <meta name="twitter:title" content="{{ $blog->title }}">
+        <meta name="twitter:description" content="{{ $blog->description }}">
+        <meta name="twitter:category" content="{{ $blog->category }}">
+        <meta name="twitter:link" content="{{ url('/blog/' . $blog->slug) }}">
+    @endforeach
 
     <!-- Page Header Start -->
     <div class="page-header">
@@ -30,15 +46,11 @@
                 <div class="col-12">
                     <form action="{{ route('blogs') }}" method="GET" class="d-flex justify-content-center">
                         <div class="input-group" style="max-width: 600px;">
-                            <input type="text" 
-                                   name="search" 
-                                   class="form-control"
-                                   placeholder="Search blogs by title, category, or tags..." 
-                                   value="{{ request('search') }}"
-                                   style="border-radius: 25px 0 0 25px; padding: 12px 20px; border: 2px solid #FDBE33; border-right: none; height: 50px;">
-                            <button class="btn" 
-                                    type="submit"
-                                    style="border-radius: 0 25px 25px 0; padding: 12px 30px; background-color: #FDBE33; border: 2px solid #FDBE33; color: #fff; font-weight: 600; height: 50px; display: flex; align-items: center; gap: 5px;">
+                            <input type="text" name="search" class="form-control"
+                                placeholder="Search blogs by title, category, or tags..." value="{{ request('search') }}"
+                                style="border-radius: 25px 0 0 25px; padding: 12px 20px; border: 2px solid #FDBE33; border-right: none; height: 50px;">
+                            <button class="btn" type="submit"
+                                style="border-radius: 0 25px 25px 0; padding: 12px 30px; background-color: #FDBE33; border: 2px solid #FDBE33; color: #fff; font-weight: 600; height: 50px; display: flex; align-items: center; gap: 5px;">
                                 <i class="fa fa-search"></i> Search
                             </button>
                         </div>

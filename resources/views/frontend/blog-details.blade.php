@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Ranihati Construction Private Limited - RCPL')
+
 
 @section('content')
 
@@ -54,28 +54,30 @@
                         </div>
                     </div>
                     <div class="single-related wow fadeInUp">
-                    <h2>Related Posts - {{ ucfirst($blog->category) }}</h2>
-                    @if($relatedBlogs->count() > 0)
-                        <div class="owl-carousel related-slider">
-                            @foreach($relatedBlogs as $relatedBlog)
-                                <div class="post-item">
-                                    <div class="post-img">
-                                        <img src="{{ asset('storage/' . $relatedBlog->image) }}" alt="{{ $relatedBlog->title }}" />
-                                    </div>
-                                    <div class="post-text">
-                                        <a href="{{ route('blog.details', $relatedBlog->slug) }}">{{ Str::limit($relatedBlog->title, 50) }}</a>
-                                        <div class="post-meta">
-                                            <p>By<a href="">{{ $relatedBlog->author_name }}</a></p>
-                                            <p>In<a href="">{{ ucfirst($relatedBlog->category) }}</a></p>
+                        <h2>Related Posts - {{ ucfirst($blog->category) }}</h2>
+                        @if($relatedBlogs->count() > 0)
+                            <div class="owl-carousel related-slider">
+                                @foreach($relatedBlogs as $relatedBlog)
+                                    <div class="post-item">
+                                        <div class="post-img">
+                                            <img src="{{ asset('storage/' . $relatedBlog->image) }}"
+                                                alt="{{ $relatedBlog->title }}" />
+                                        </div>
+                                        <div class="post-text">
+                                            <a
+                                                href="{{ route('blog.details', $relatedBlog->slug) }}">{{ Str::limit($relatedBlog->title, 50) }}</a>
+                                            <div class="post-meta">
+                                                <p>By<a href="">{{ $relatedBlog->author_name }}</a></p>
+                                                <p>In<a href="">{{ ucfirst($relatedBlog->category) }}</a></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <p>No related posts found in this category.</p>
-                    @endif
-                </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>No related posts found in this category.</p>
+                        @endif
+                    </div>
 
 
                     <div class="comment-form wow fadeInUp">
@@ -85,7 +87,7 @@
                                 <label for="name">Name *</label>
                                 <input type="text" class="form-control" id="name">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="email">Email *</label>
                                 <input type="email" class="form-control" id="email">
@@ -106,24 +108,26 @@
                     <div class="sidebar">
 
                         <div class="sidebar-widget wow fadeInUp">
-                        <h2 class="widget-title">Recent Post</h2>
-                        <div class="recent-post">
-                            @foreach($recentBlogs as $recentBlog)
-                                <div class="post-item">
-                                    <div class="post-img">
-                                        <img src="{{ asset('storage/' . $recentBlog->image) }}" alt="{{ $recentBlog->title }}" />
-                                    </div>
-                                    <div class="post-text">
-                                        <a href="{{ route('blog.details', $recentBlog->slug) }}">{{ Str::limit($recentBlog->title, 40) }}</a>
-                                        <div class="post-meta">
-                                            <p>By<a href="">{{ $recentBlog->author_name }}</a></p>
-                                            <p>In<a href="">{{ ucfirst($recentBlog->category) }}</a></p>
+                            <h2 class="widget-title">Recent Post</h2>
+                            <div class="recent-post">
+                                @foreach($recentBlogs as $recentBlog)
+                                    <div class="post-item">
+                                        <div class="post-img">
+                                            <img src="{{ asset('storage/' . $recentBlog->image) }}"
+                                                alt="{{ $recentBlog->title }}" />
+                                        </div>
+                                        <div class="post-text">
+                                            <a
+                                                href="{{ route('blog.details', $recentBlog->slug) }}">{{ Str::limit($recentBlog->title, 40) }}</a>
+                                            <div class="post-meta">
+                                                <p>By<a href="">{{ $recentBlog->author_name }}</a></p>
+                                                <p>In<a href="">{{ ucfirst($recentBlog->category) }}</a></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
 
 
                         <div class="sidebar-widget wow fadeInUp">

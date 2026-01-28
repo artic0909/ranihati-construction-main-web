@@ -35,7 +35,12 @@ class FrontendController extends Controller
         $faqsLastEight = FAQ::orderBy('id', 'asc')->skip(8)->limit(8)->get();
         $testimonials = Testimonial::get();
         $blogs = Blog::latest()->take(3)->get();
-        return view('frontend.home', compact('carousels', 'works', 'projects', 'fact', 'about', 'clients', 'faqsFirstEight', 'faqsLastEight', 'testimonials', 'blogs'));
+        // SEO Data
+        $meta_title = "Ranihati Construction Private Limited - Leading Construction Company in Kolkata";
+        $meta_description = "Ranihati Construction Private Limited (RCPL) is a top-tier construction and facade solution provider in Kolkata. We deliver excellence in civil work, glazing, and interior design.";
+        $meta_keywords = "construction company, facade solutions, civil engineering, Kolkata, RCPL, Ranihati Construction";
+
+        return view('frontend.home', compact('carousels', 'works', 'projects', 'fact', 'about', 'clients', 'faqsFirstEight', 'faqsLastEight', 'testimonials', 'blogs', 'meta_title', 'meta_description', 'meta_keywords'));
     }
 
     // Services
@@ -43,21 +48,36 @@ class FrontendController extends Controller
     {
         $services = Service::get();
         $projects = Project::get();
-        return view('frontend.service', compact('services', 'projects'));
+        // SEO Data
+        $meta_title = "Our Services - Civil, Facade, & Interior Solutions | RCPL";
+        $meta_description = "Explore our comprehensive range of services including civil construction, aluminium glazing, facade works, and interior designing. We deliver quality and innovation.";
+        $meta_keywords = "construction services, facade works, glazing services, interior design service, Kolkata construction";
+
+        return view('frontend.service', compact('services', 'projects', 'meta_title', 'meta_description', 'meta_keywords'));
     }
 
     // Mission
     public function mission()
     {
         $missions = Mission::get();
-        return view('frontend.mission', compact('missions'));
+        // SEO Data
+        $meta_title = "Our Mission & Vision | Ranihati Construction Private Limited";
+        $meta_description = "Learn about RCPL's mission to build sustainable infrastructure and our vision to become a global leader in the construction industry.";
+        $meta_keywords = "company mission, vision statement, core values, RCPL goals, construction company vision";
+
+        return view('frontend.mission', compact('missions', 'meta_title', 'meta_description', 'meta_keywords'));
     }
 
     // Career
     public function career()
     {
         $about = About::get()->first();
-        return view('frontend.careers', compact('about'));
+        // SEO Data
+        $meta_title = "Careers at RCPL - Join Our Team";
+        $meta_description = "Build your career with Ranihati Construction Private Limited. Explore current job openings for Project Managers, Engineers, Supervisors, and more.";
+        $meta_keywords = "jobs in construction, civil engineer jobs, site supervisor vacancy, RCPL careers, recruitment Kolkata";
+
+        return view('frontend.careers', compact('about', 'meta_title', 'meta_description', 'meta_keywords'));
     }
 
     public function storeJobEnquiry(Request $request)
@@ -154,7 +174,29 @@ class FrontendController extends Controller
 
         $blogs = $query->paginate(6);
 
-        return view('frontend.blogs', compact('blogs'));
+        // SEO Data for the blog listing page
+        $meta_title = "Latest Construction Insights & News | RCPL Blog";
+        $meta_description = "Stay updated with the latest trends, news, and insights in the construction and facade industry from Ranihati Construction Private Limited.";
+        $meta_keywords = "construction blog, industry news, facade trends, civil engineering insights, RCPL blog";
+
+        // Additional data as meta variables
+        $meta_works = Work::get();
+        $meta_projects = Project::get();
+        $meta_about = About::get()->first();
+        $meta_faqs_first_eight = FAQ::orderBy('id', 'asc')->limit(8)->get();
+        $meta_faqs_last_eight = FAQ::orderBy('id', 'asc')->skip(8)->limit(8)->get();
+
+        return view('frontend.blogs', compact(
+            'blogs',
+            'meta_title',
+            'meta_description',
+            'meta_keywords',
+            'meta_works',
+            'meta_projects',
+            'meta_about',
+            'meta_faqs_first_eight',
+            'meta_faqs_last_eight'
+        ));
     }
 
     public function blogDetails($slug)
@@ -180,7 +222,13 @@ class FrontendController extends Controller
             ->orderBy('count', 'desc')
             ->get();
 
-        return view('frontend.blog-details', compact('blog', 'relatedBlogs', 'recentBlogs', 'categories'));
+        // SEO Data
+        $meta_title = $blog->title . " | RCPL Blog";
+        $meta_description = \Illuminate\Support\Str::limit(strip_tags($blog->description), 160);
+        $meta_keywords = $blog->tag; // Assuming tags are comma-separated or similar
+        $og_image = asset('storage/' . $blog->image);
+
+        return view('frontend.blog-details', compact('blog', 'relatedBlogs', 'recentBlogs', 'categories', 'meta_title', 'meta_description', 'meta_keywords', 'og_image'));
     }
 
 
@@ -190,7 +238,12 @@ class FrontendController extends Controller
     {
         $faqsFirstEight = FAQ::orderBy('id', 'asc')->limit(8)->get();
         $faqsLastEight = FAQ::orderBy('id', 'asc')->skip(8)->limit(8)->get();
-        return view('frontend.contact', compact('faqsFirstEight', 'faqsLastEight'));
+        // SEO Data
+        $meta_title = "Contact Us - Get a Quote | Ranihati Construction Private Limited";
+        $meta_description = "Get in touch with RCPL for your construction and facade needs. Call us, email us, or visit our office in Kolkata. Get a free quote today.";
+        $meta_keywords = "contact RCPL, construction quote, office address, phone number, Kolkata construction contact";
+
+        return view('frontend.contact', compact('faqsFirstEight', 'faqsLastEight', 'meta_title', 'meta_description', 'meta_keywords'));
     }
 
     public function storeEnquiry(Request $request)
@@ -225,6 +278,11 @@ class FrontendController extends Controller
     // Privacy Policy
     public function privacyPolicy()
     {
-        return view('frontend.privacy-policy');
+        // SEO Data
+        $meta_title = "Privacy Policy | Ranihati Construction Private Limited";
+        $meta_description = "Read our privacy policy to understand how we collect, use, and protect your data at Ranihati Construction Private Limited.";
+        $meta_keywords = "privacy policy, data protection, user rights, RCPL privacy";
+
+        return view('frontend.privacy-policy', compact('meta_title', 'meta_description', 'meta_keywords'));
     }
 }
