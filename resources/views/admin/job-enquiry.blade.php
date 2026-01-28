@@ -106,7 +106,7 @@
     <!-- View CV Modal -->
     @foreach($jobEnquiries as $jobEnquiry)
         <div class="modal fade" id="viewCVModal{{ $jobEnquiry->id }}" tabindex="-1" aria-labelledby="viewCVModalLabel{{ $jobEnquiry->id }}" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="viewCVModalLabel{{ $jobEnquiry->id }}">CV - {{ $jobEnquiry->job_title }}</h5>
@@ -114,16 +114,47 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <p><strong>Applicant Details:</strong></p>
-                            <ul>
-                                <li><strong>Job Title:</strong> {{ $jobEnquiry->job_title }}</li>
-                                <li><strong>Qualification:</strong> {{ $jobEnquiry->qualification }}</li>
-                                <li><strong>HS Division:</strong> {{ ucfirst($jobEnquiry->hs_division) }}</li>
-                                <li><strong>10th Percentage:</strong> {{ $jobEnquiry->tenth_percentage }}%</li>
-                                <li><strong>HS Percentage:</strong> {{ $jobEnquiry->hs_percentage }}%</li>
-                                <li><strong>Phone:</strong> {{ $jobEnquiry->phone }}</li>
-                                <li><strong>Address:</strong> {{ $jobEnquiry->address }}</li>
-                            </ul>
+                            <h6 class="mb-3"><strong>Applicant Details:</strong></h6>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 30%; background-color: #f8f9fa;">Name</th>
+                                        <td>{{ $jobEnquiry->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">Email</th>
+                                        <td>{{ $jobEnquiry->email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">Phone</th>
+                                        <td>{{ $jobEnquiry->phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">Job Title</th>
+                                        <td>{{ $jobEnquiry->job_title }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">Qualification</th>
+                                        <td>{{ $jobEnquiry->qualification }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">HS Division</th>
+                                        <td>{{ ucfirst($jobEnquiry->hs_division) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">10th Percentage</th>
+                                        <td>{{ $jobEnquiry->tenth_percentage }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">HS Percentage</th>
+                                        <td>{{ $jobEnquiry->hs_percentage }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #f8f9fa;">Address</th>
+                                        <td>{{ $jobEnquiry->address }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <hr>
                         <div class="mb-3">
