@@ -363,16 +363,16 @@
                 @foreach ($blogs as $blog)
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="blog-item">
-                            <div class="blog-img">
+                            <a href="{{ route('blog.details', $blog->slug) }}" class="blog-img">
                                 <img src="{{ asset('storage/' . $blog->image) }}" alt="Image">
-                            </div>
+                            </a>
                             <div class="blog-title">
                                 <h3>{{ $blog->title }}</h3>
                                 <a class="btn" href="">+</a>
                             </div>
                             <div class="blog-meta">
-                                <p>By<a href="">Admin</a></p>
-                                <p>In<a href="">Ranihati Const. Pvt. Ltd.</a></p>
+                                <p>By<a href="{{ route('blog.details', $blog->slug) }}">Admin</a></p>
+                                <p>In<a href="{{ route('blog.details', $blog->slug) }}">Ranihati Const. Pvt. Ltd.</a></p>
                             </div>
                             <div class="blog-text">
                                 <p>

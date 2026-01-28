@@ -6,7 +6,7 @@
 
 @section('content')
 
-    @foreach($blogs as $blog)
+    <!-- @foreach($blogs as $blog)
         <meta name="description" content="{{ $blog->description }}">
         <meta name="keywords"
             content="{{ $blog->tags }}, {{ $blog->category }}, {{ $blog->title }}, {{ $blog->author_name }}">
@@ -18,7 +18,7 @@
         <meta name="twitter:description" content="{{ $blog->description }}">
         <meta name="twitter:category" content="{{ $blog->category }}">
         <meta name="twitter:link" content="{{ url('/blog/' . $blog->slug) }}">
-    @endforeach
+    @endforeach -->
 
     <!-- Page Header Start -->
     <div class="page-header">
