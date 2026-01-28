@@ -16,11 +16,13 @@ Route::get('/mission', [FrontendController::class, 'mission'])->name('mission');
 Route::get('/careers', [FrontendController::class, 'career'])->name('careers');
 Route::post('/careers', [FrontendController::class, 'storeJobEnquiry'])->name('careers.store');
 
-
-
-
-
+// Blogs
 Route::get('/blogs', [FrontendController::class, 'blogs'])->name('blogs');
+Route::get('/blog/{slug}', [FrontendController::class, 'blogDetails'])->name('blog.details');
+
+
+
+
 
 Route::get('/contact', function () {
     return view('frontend.contact');
@@ -28,7 +30,6 @@ Route::get('/contact', function () {
 
 Route::post('/enquiry', [FrontendController::class, 'storeEnquiry'])->name('enquiry.store');
 
-Route::get('/blog/{slug}', [FrontendController::class, 'blogDetails'])->name('blog.details');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
