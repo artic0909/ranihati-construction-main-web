@@ -47,7 +47,7 @@
                         </div>
                         <div class="feature-text">
                             <h3>Expert Worker</h3>
-                            <p>Lorem ipsum dolor sit amet elit. Phasus nec pretim ornare velit non</p>
+                            <p>Skilled professionals delivering precise facade and interior finishing with quality focus.</p>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="feature-text">
                             <h3>Quality Work</h3>
-                            <p>Lorem ipsum dolor sit amet elit. Phasus nec pretim ornare velit non</p>
+                            <p>High standard materials and workmanship ensure durable and reliable construction results.</p>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="feature-text">
                             <h3>24/7 Support</h3>
-                            <p>Lorem ipsum dolor sit amet elit. Phasus nec pretim ornare velit non</p>
+                            <p>Dedicated team support ensures smooth coordination and timely project completion.</p>
                         </div>
                     </div>
                 </div>
@@ -94,8 +94,8 @@
                                     <img src="{{ asset('storage/' . $work->image) }}" alt="Image">
                                 </div>
                                 <div class="service-text">
-                                    <h3>{{ $work->title }}</h3>
-                                    <a class="btn" href="{{ asset('storage/' . $work->image) }}" data-lightbox="service">+</a>
+                                    <!-- <h3>{{ $work->title }}</h3> -->
+                                    <a class="btn" href="{{ asset('storage/' . $work->image) }}" data-lightbox="service">View Works &nbsp;<i class="fa fa-eye"></i></a>
                                 </div>
                             </div>
                         </div>
