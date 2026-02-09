@@ -33,7 +33,7 @@
                                 <img src="{{ asset('storage/' . $service->image) }}" alt="Image">
                             </div>
                             <div class="service-text">
-                                <h3>{{ $service->title }}</h3>
+                                <h3 style="color: white;">{{ $service->title }}</h3>
                                 <a class="btn" href="{{ asset('storage/' . $service->image) }}" data-lightbox="service">+</a>
                             </div>
                         </div>
