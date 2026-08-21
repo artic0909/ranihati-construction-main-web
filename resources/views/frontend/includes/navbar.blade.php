@@ -1,7 +1,7 @@
 <div class="nav-bar">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-            <a href="#" class="navbar-brand">MENU</a>
+            <a href="{{ asset('pdf/brochure.pdf') }}" target="_blank" class="navbar-brand d-lg-none" style="border: 2px solid #ffffff; padding: 5px 15px; font-size: 14px; font-weight: 500;">OUR BROCHURE <i class="fa-solid fa-up-right-from-square ml-1"></i></a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
